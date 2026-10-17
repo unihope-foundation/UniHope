@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { Heart, MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export interface FooterLink {
   label: string;
@@ -17,11 +17,13 @@ export interface FooterProps {
   brandName?: string;
   subBrandName?: string;
   tagline?: React.ReactNode;
+  officeTitle?: string;
   quickLinks?: FooterLink[];
   legalLinks?: FooterLink[];
   addressLines?: string[];
   phone?: string;
   email?: string;
+  workingHours?: string;
   registrationText?: string;
   copyrightYear?: number | string;
   className?: string;
@@ -29,24 +31,20 @@ export interface FooterProps {
 
 const DEFAULT_QUICK_LINKS: FooterLink[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Our Work", href: "/our-work" },
-  { label: "Get Involved", href: "/volunteer" },
-  { label: "Donate", href: "/donate" },
-  { label: "Contact", href: "/contact" },
+  { label: "About the Trust", href: "/about" },
+  { label: "Our Work & Focus Areas", href: "/our-work" },
+  { label: "Volunteer Application ↗", href: "/volunteer" },
+  { label: "Statutory Donations", href: "/donate" },
 ];
 
 const DEFAULT_LEGAL_LINKS: FooterLink[] = [
+  { label: "Statutory Disclosures", href: "/disclosures" },
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms of Service", href: "/terms-of-service" },
 ];
 
 const DEFAULT_ADDRESS_LINES = [
-  "2nd Floor, No. 73, S Sivan Kovil Street,",
-  "opp. Ambiga Driving School,",
-  "Ottagapalayam, Sector 15,",
-  "Vadapalani, Chennai, Tamil Nadu",
-  "600026",
+  "Vadapalani, Chennai, Tamil Nadu 600026, India",
 ];
 
 // Clean SVGs for social media matching the screenshot
@@ -125,32 +123,28 @@ function HashIcon({ className = "w-4 h-4" }: { className?: string }) {
 export function Footer({
   brandName = "UNIHOPE",
   subBrandName = "FOUNDATION",
-  tagline = (
-    <>
-      Together, We Build Hope. Every Dream Counts.
-      <br />
-      Transforming Lives.
-    </>
-  ),
+  tagline = "A registered social and charitable trust committed to authentic social advancement, health accessibility, and grassroots community empowerment across Tamil Nadu.",
+  officeTitle = "REGISTERED OFFICE",
   quickLinks = DEFAULT_QUICK_LINKS,
   legalLinks = DEFAULT_LEGAL_LINKS,
   addressLines = DEFAULT_ADDRESS_LINES,
-  phone = "+91 91501 49339",
-  email = "unihopefoundation.official@gmail.com",
+  phone = "+91 9143380 0000",
+  email = "trustee@unihopefoundation.org",
+  workingHours = "Monday - Saturday: 09:30 AM - 05:30 PM IST",
   registrationText = "Registered Charitable Trust - Reg. No. R/Chennai North Joint I/Book-4/228/2026",
   copyrightYear = "2026",
   className = "",
 }: FooterProps) {
   const socialIcons: SocialLink[] = [
     {
-      icon: <InstagramIcon className="h-4 w-4" />,
-      href: "https://instagram.com",
-      label: "Instagram",
-    },
-    {
       icon: <GlobeIcon className="h-4 w-4" />,
       href: "https://unihope.org",
       label: "Website",
+    },
+    {
+      icon: <InstagramIcon className="h-4 w-4" />,
+      href: "https://instagram.com",
+      label: "Instagram",
     },
     {
       icon: <YoutubeIcon className="h-4 w-4" />,
@@ -186,15 +180,13 @@ export function Footer({
               </div>
             </Link>
 
-            {/* Tagline Box */}
-            <div className="rounded-xl bg-[#041B33] p-4 border border-white/10 max-w-sm">
-              <p className="text-xs sm:text-sm leading-relaxed text-blue-100/90 font-medium">
-                {tagline}
-              </p>
-            </div>
+            {/* Tagline */}
+            <p className="max-w-sm text-xs sm:text-sm leading-relaxed text-blue-100/80">
+              {tagline}
+            </p>
 
             {/* Social Icons (Desktop) */}
-            <div className="hidden sm:flex items-center gap-3 pt-2">
+            <div className="hidden sm:flex items-center gap-3 pt-1">
               {socialIcons.map((social) => (
                 <a
                   key={social.label}
@@ -211,7 +203,7 @@ export function Footer({
           </div>
 
           {/* Column 2: Quick Links */}
-          <div className="lg:col-span-2 lg:pl-4">
+          <div className="lg:col-span-3 lg:pl-4">
             <h3 className="text-xs font-bold tracking-widest uppercase text-white">
               Quick Links
             </h3>
@@ -220,7 +212,7 @@ export function Footer({
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-blue-100/75 transition-colors duration-200 hover:text-white hover:underline underline-offset-4"
+                    className="text-xs sm:text-sm text-blue-100/75 transition-colors duration-200 hover:text-white hover:underline underline-offset-4"
                   >
                     {link.label}
                   </Link>
@@ -229,40 +221,50 @@ export function Footer({
             </ul>
           </div>
 
-          {/* Column 3: Information & Contact */}
-          <div className="lg:col-span-4">
+          {/* Column 3: Registered Office & Contact */}
+          <div className="lg:col-span-5">
             <h3 className="text-xs font-bold tracking-widest uppercase text-white">
-              Information
+              {officeTitle}
             </h3>
-            <div className="mt-6 space-y-4 text-sm leading-relaxed text-blue-100/75">
-              <div>
-                {addressLines.map((line, index) => (
-                  <p key={index}>{line}</p>
-                ))}
+            <div className="mt-6 space-y-3.5 text-xs sm:text-sm leading-relaxed text-blue-100/75">
+              <div className="flex items-start gap-3">
+                <MapPin className="h-4 w-4 text-[#4ADE80] shrink-0 mt-0.5" />
+                <div>
+                  {addressLines.map((line, index) => (
+                    <p key={index}>{line}</p>
+                  ))}
+                </div>
               </div>
 
               {phone && (
-                <p>
-                  <span className="text-white/90 font-medium">Phone:</span>{" "}
+                <div className="flex items-center gap-3">
+                  <Phone className="h-4 w-4 text-[#4ADE80] shrink-0" />
                   <a
                     href={`tel:${phone.replace(/\s+/g, "")}`}
                     className="transition hover:text-white"
                   >
                     {phone}
                   </a>
-                </p>
+                </div>
               )}
 
               {email && (
-                <p className="break-all">
-                  <span className="text-white/90 font-medium">Email:</span>{" "}
+                <div className="flex items-center gap-3">
+                  <Mail className="h-4 w-4 text-[#4ADE80] shrink-0" />
                   <a
                     href={`mailto:${email}`}
-                    className="transition hover:text-white"
+                    className="transition hover:text-white break-all"
                   >
                     {email}
                   </a>
-                </p>
+                </div>
+              )}
+
+              {workingHours && (
+                <div className="flex items-center gap-3">
+                  <Clock className="h-4 w-4 text-[#4ADE80] shrink-0" />
+                  <span>{workingHours}</span>
+                </div>
               )}
             </div>
           </div>

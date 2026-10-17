@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Heart } from "lucide-react";
 
 export interface NavItem {
@@ -23,7 +24,7 @@ const DEFAULT_NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Our Work", href: "/our-work" },
-  { label: "Volunteer", href: "/volunteer" },
+  { label: "Volunteer ↗", href: "/volunteer" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -36,6 +37,7 @@ export function Navbar({
   onCtaClick,
   className = "",
 }: NavbarProps) {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
@@ -75,16 +77,28 @@ export function Navbar({
 
         {/* Desktop Navigation Links */}
         <nav className="hidden items-center gap-8 md:flex lg:gap-10">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="group relative text-[15px] font-medium text-gray-700 transition-colors duration-200 hover:text-[#0A2540]"
-            >
-              <span>{item.label}</span>
-              <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#0A2540] transition-all duration-200 group-hover:w-full" />
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`group relative text-[15px] transition-colors duration-200 py-1 ${
+                  isActive
+                    ? "font-bold text-[#0A2540]"
+                    : "font-medium text-gray-700 hover:text-[#0A2540]"
+                }`}
+              >
+                <span>{item.label}</span>
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-[#0A2540] transition-all duration-200 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right Action (Desktop Donate CTA) */}
