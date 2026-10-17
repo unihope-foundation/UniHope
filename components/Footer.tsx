@@ -186,13 +186,15 @@ export function Footer({
               </div>
             </Link>
 
-            {/* Tagline */}
-            <p className="max-w-sm text-sm leading-relaxed text-blue-100/80">
-              {tagline}
-            </p>
+            {/* Tagline Box */}
+            <div className="rounded-xl bg-[#041B33] p-4 border border-white/10 max-w-sm">
+              <p className="text-xs sm:text-sm leading-relaxed text-blue-100/90 font-medium">
+                {tagline}
+              </p>
+            </div>
 
-            {/* Social Icons */}
-            <div className="flex items-center gap-3 pt-2">
+            {/* Social Icons (Desktop) */}
+            <div className="hidden sm:flex items-center gap-3 pt-2">
               {socialIcons.map((social) => (
                 <a
                   key={social.label}
@@ -283,6 +285,22 @@ export function Footer({
               ))}
             </ul>
           </div>
+        </div>
+
+        {/* Mobile Social Icons */}
+        <div className="flex sm:hidden items-center justify-center gap-3 pt-8 border-t border-white/10 mt-8">
+          {socialIcons.map((social) => (
+            <a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 text-white/90 transition hover:border-white hover:bg-white/10 hover:text-white"
+            >
+              {social.icon}
+            </a>
+          ))}
         </div>
       </div>
 

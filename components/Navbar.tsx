@@ -107,19 +107,36 @@ export function Navbar({
           )}
         </div>
 
-        {/* Mobile Hamburger Button */}
-        <div className="flex items-center md:hidden">
+        {/* Mobile Action & Hamburger Button */}
+        <div className="flex items-center gap-2.5 md:hidden">
+          {onCtaClick ? (
+            <button
+              type="button"
+              onClick={onCtaClick}
+              className="inline-flex items-center justify-center rounded-full bg-[#0A2540] px-4 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#071D33] active:scale-[0.98]"
+            >
+              {ctaText}
+            </button>
+          ) : (
+            <Link
+              href={ctaHref}
+              className="inline-flex items-center justify-center rounded-full bg-[#0A2540] px-4 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#071D33] active:scale-[0.98]"
+            >
+              {ctaText}
+            </Link>
+          )}
+
           <button
             type="button"
             onClick={toggleMobileMenu}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-700 transition hover:bg-gray-100 hover:text-[#0A2540]"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-gray-700 transition hover:bg-gray-100 hover:text-[#0A2540]"
           >
             {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
+              <X className="h-5 w-5" />
             ) : (
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
             )}
           </button>
         </div>
