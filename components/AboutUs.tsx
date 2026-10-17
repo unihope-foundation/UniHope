@@ -184,7 +184,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
           <div className="lg:col-span-5 flex justify-center w-full">
             <div className="relative overflow-hidden rounded-[2rem] shadow-sm aspect-[454/568] w-full max-w-md mx-auto">
               <Image
-                src="/community-gathering.svg"
+                src="/assets/community-gathering.svg"
                 alt="Community gathering in Chennai"
                 fill
                 priority
