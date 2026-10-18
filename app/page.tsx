@@ -13,6 +13,7 @@ import {
   ArrowUpRight,
   Heart,
 } from "lucide-react";
+import { TickerRibbon } from "@/components/TickerRibbon";
 
 export default function Home() {
   const focusAreas = [
@@ -185,24 +186,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================================= */}
-      {/* 2. TICKER RIBBON                                          */}
-      {/* ========================================================= */}
-      <div className="w-full bg-[#FF8000] py-3.5 overflow-hidden select-none shadow-xs">
-        <div className="flex whitespace-nowrap text-xs sm:text-sm font-extrabold tracking-widest text-[#0A2540] uppercase justify-around px-4">
-          <span>TOGETHER, WE BUILD HOPE</span>
-          <span className="mx-2">•</span>
-          <span>EVERY DREAM COUNTS</span>
-          <span className="mx-2">•</span>
-          <span>TRANSFORMING LIVES</span>
-          <span className="hidden sm:inline mx-2">•</span>
-          <span className="hidden sm:inline">TOGETHER, WE BUILD HOPE</span>
-          <span className="hidden md:inline mx-2">•</span>
-          <span className="hidden md:inline">EVERY DREAM COUNTS</span>
-          <span className="hidden lg:inline mx-2">•</span>
-          <span className="hidden lg:inline">TRANSFORMING LIVES</span>
-        </div>
-      </div>
+     {/* ========================================================= */}
+           {/* 2. TICKER RIBBON                                          */}
+           {/* ========================================================= */}
+         
+           <section>
+           <TickerRibbon />
+           </section>
 
       {/* ========================================================= */}
       {/* 3. KEY STATS SECTION                                      */}
