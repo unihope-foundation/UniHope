@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { TickerRibbon } from "@/components/TickerRibbon";
 import {
   Activity,
   GraduationCap,
@@ -185,23 +186,14 @@ export function OurWork({ className = "" }: { className?: string }) {
           </span>
         </div>
       </section>
-
+      
       {/* ========================================================= */}
       {/* 2. TICKER RIBBON                                          */}
       {/* ========================================================= */}
-      <div className="w-full bg-[#FF8000] py-3.5 overflow-hidden select-none shadow-xs">
-        <div className="flex whitespace-nowrap text-xs sm:text-sm font-extrabold tracking-widest text-[#0A2540] uppercase justify-around px-4">
-          <span>TOGETHER, WE BUILD HOPE</span>
-          <span className="mx-2">•</span>
-          <span>EVERY DREAM COUNTS</span>
-          <span className="mx-2">•</span>
-          <span>TRANSFORMING LIVES</span>
-          <span className="hidden sm:inline mx-2">•</span>
-          <span className="hidden sm:inline">TOGETHER, WE BUILD HOPE</span>
-          <span className="hidden md:inline mx-2">•</span>
-          <span className="hidden md:inline">EVERY DREAM COUNTS</span>
-        </div>
-      </div>
+    
+      <section>
+      <TickerRibbon />
+      </section>
 
       {/* ========================================================= */}
       {/* 3. TEN PILLARS OF SERVICE (Accordion Cards)               */}
