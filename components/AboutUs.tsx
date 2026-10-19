@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { TickerRibbon } from "@/components/TickerRibbon";
 import {
   CheckCircle2,
   ArrowUpRight,
@@ -19,6 +18,10 @@ import {
   Target,
   Sparkles,
 } from "lucide-react";
+import { TickerRibbon } from "@/components/TickerRibbon";
+import { Reveal } from "@/components/motion/Reveal";
+import { RevealGroup } from "@/components/motion/RevealGroup";
+import { delay } from "@/lib/motion";
 
 export interface TeamMember {
   name: string;
@@ -112,18 +115,30 @@ export function AboutUs({ className = "" }: AboutUsProps) {
       {/* ========================================================= */}
       <section className="mx-auto max-w-7xl px-4 pt-6 pb-6 sm:pt-10 sm:pb-8 sm:px-6 lg:px-8 text-center">
         <div className="mx-auto max-w-3xl rounded-[2rem] bg-[#F4F5F7] py-8 px-5 sm:py-12 sm:px-12 shadow-xs">
-          <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
+          <span
+            className="anim-fade-up text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]"
+            style={delay(0)}
+          >
             About
           </span>
-          <h1 className="mt-2.5 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0A2540] leading-tight">
+          <h1
+            className="anim-fade-up mt-2.5 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0A2540] leading-tight"
+            style={delay(60)}
+          >
             About UNIHOPE Foundation
           </h1>
-          <p className="mt-2.5 text-xs sm:text-base text-gray-600">
+          <p
+            className="anim-fade-up mt-2.5 text-xs sm:text-base text-gray-600"
+            style={delay(120)}
+          >
             A registered charitable trust in Chennai, Tamil Nadu.
           </p>
         </div>
       </section>
 
+      {/* ========================================================= */}
+      {/* 2. TICKER RIBBON                                          */}
+      {/* ========================================================= */}
       <TickerRibbon />
 
       {/* ========================================================= */}
@@ -185,7 +200,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
       {/* 4. VISION & OBJECTIVES (Deep Navy Box)                     */}
       {/* ========================================================= */}
       <section className="mx-auto max-w-7xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
-        <div className="rounded-[2rem] sm:rounded-[2.5rem] bg-[#0A2540] p-6 sm:p-14 lg:p-16 text-white shadow-xl">
+        <Reveal className="rounded-[2rem] sm:rounded-[2.5rem] bg-[#0A2540] p-6 sm:p-14 lg:p-16 text-white shadow-xl">
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#4ADE80]">
             Vision
           </span>
@@ -212,7 +227,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ========================================================= */}
@@ -270,7 +285,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
       <section className="w-full bg-[#F8F9FA] border-y border-gray-100 py-12 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-5">
+            <Reveal className="lg:col-span-5">
               <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
                 Our Values
               </span>
@@ -281,10 +296,10 @@ export function AboutUs({ className = "" }: AboutUsProps) {
                 Our values define how we work, how we treat the people we serve,
                 and how we steward the resources entrusted to us.
               </p>
-            </div>
+            </Reveal>
 
             {/* Values Items List */}
-            <div className="lg:col-span-7 space-y-4 sm:space-y-6">
+            <RevealGroup className="lg:col-span-7 space-y-4 sm:space-y-6" itemAs="div">
               {DEFAULT_VALUES.map((val) => (
                 <div
                   key={val.title}
@@ -303,7 +318,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
                   </div>
                 </div>
               ))}
-            </div>
+            </RevealGroup>
           </div>
         </div>
       </section>
@@ -313,7 +328,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
       {/* ========================================================= */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
         <div className="rounded-[2rem] sm:rounded-[2.5rem] bg-white p-6 sm:p-14 shadow-sm border border-gray-100 flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
-          <div className="max-w-2xl w-full">
+          <Reveal delay={100} className="max-w-2xl w-full">
             <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
               From the Founder
             </span>
@@ -331,12 +346,12 @@ export function AboutUs({ className = "" }: AboutUsProps) {
                 Founder & Managing Trustee, UniHope Foundation
               </p>
             </div>
-          </div>
+          </Reveal>
 
           {/* Profile Photo Placeholder */}
-          <div className="flex h-44 w-full sm:w-48 sm:h-48 md:w-48 md:h-48 shrink-0 items-center justify-center rounded-2xl sm:rounded-3xl bg-slate-100 border border-gray-200 text-gray-400 shadow-inner">
+          <Reveal variant="fade" className="flex h-44 w-full sm:w-48 sm:h-48 md:w-48 md:h-48 shrink-0 items-center justify-center rounded-2xl sm:rounded-3xl bg-slate-100 border border-gray-200 text-gray-400 shadow-inner">
             <User className="h-14 w-14 sm:h-16 sm:w-16" />
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -387,7 +402,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
       {/* 9. EVERYONE CAN CONTRIBUTE (Pre-Footer CTA)               */}
       {/* ========================================================= */}
       <section className="mx-auto max-w-7xl px-4 py-8 sm:py-16 sm:px-6 lg:px-8">
-        <div className="rounded-[2rem] sm:rounded-[2.5rem] bg-[#F4F5F7] p-6 sm:p-14 text-center max-w-4xl mx-auto shadow-xs border border-gray-200">
+        <Reveal className="rounded-[2rem] sm:rounded-[2.5rem] bg-[#F4F5F7] p-6 sm:p-14 text-center max-w-4xl mx-auto shadow-xs border border-gray-200">
           <h2 className="text-xl sm:text-3xl font-extrabold text-[#0A2540]">
             Everyone can contribute
           </h2>
@@ -398,19 +413,19 @@ export function AboutUs({ className = "" }: AboutUsProps) {
           <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/donate"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[#0A2540] px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#071D33] active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[#0A2540] px-8 py-3.5 text-sm font-semibold text-white shadow-sm transition-[background-color,box-shadow,transform] duration-200 hover:-translate-y-px hover:bg-[#071D33] active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
             >
               Donate
             </Link>
             <Link
               href="/volunteer"
-              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-8 py-3.5 text-sm font-semibold text-gray-800 shadow-xs transition hover:border-gray-900 active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-8 py-3.5 text-sm font-semibold text-gray-800 shadow-xs transition-[background-color,border-color,box-shadow,transform] duration-200 hover:-translate-y-px hover:border-gray-900 active:scale-[0.98] motion-reduce:transform-none motion-reduce:transition-none"
             >
               Become a volunteer
               <ArrowUpRight className="ml-1.5 h-4 w-4" />
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
     </div>
   );

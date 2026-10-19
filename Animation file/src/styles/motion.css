@@ -1,0 +1,92 @@
+/* UNIHOPE motion system. Import once, for example in app/layout.tsx:  import "@/styles/motion.css";
+   Only opacity and transform are animated. No horizontal movement, so no horizontal overflow. */
+
+:root {
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-duration: 500ms;
+  --motion-distance: 16px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* ---------- 1. Load-time animations (pure CSS, no JavaScript, safe for the hero) ---------- */
+@keyframes motion-fade-up {
+  from { opacity: 0; transform: translateY(var(--motion-distance)); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes motion-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.anim-fade-up {
+  animation: motion-fade-up var(--motion-duration) var(--motion-ease) both;
+  animation-delay: var(--anim-delay, 0ms);
+}
+.anim-fade-in {
+  animation: motion-fade-in 600ms ease-out both;
+  animation-delay: var(--anim-delay, 0ms);
+}
+
+/* ---------- 2. Scroll reveal ----------
+   Hidden ONLY when the inline script has set data-motion on <html>.
+   Without JavaScript the attribute is never set, so everything stays visible. */
+@keyframes motion-failsafe {
+  to { opacity: 1; transform: none; }
+}
+[data-motion] .reveal,
+[data-motion] .reveal-item {
+  opacity: 0;
+  transform: translateY(var(--motion-distance));
+  transition:
+    opacity var(--motion-duration) var(--motion-ease),
+    transform var(--motion-duration) var(--motion-ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-motion] .reveal-fade { transform: none; }
+
+[data-motion] .reveal.is-visible,
+[data-motion] .is-visible > .reveal-item {
+  opacity: 1;
+  transform: none; /* "none" (not translateY(0)) so sticky and fixed children keep working */
+}
+
+/* Failsafe: if the app never hydrates (data-motion stays "pending"), show everything after 3 seconds. */
+[data-motion="pending"] .reveal,
+[data-motion="pending"] .reveal-item {
+  animation: motion-failsafe 0.01s linear 3s forwards;
+}
+
+/* ---------- 3. Accordion panel (use inside your existing accordion, keeps its button and aria) ---------- */
+.collapsible {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms var(--motion-ease);
+}
+.collapsible[data-open="true"] { grid-template-rows: 1fr; }
+.collapsible > .collapsible-inner {
+  overflow: hidden;
+  min-height: 0;
+  visibility: hidden; /* closed content leaves the tab order and the accessibility tree */
+  transition: visibility 0s linear 300ms;
+}
+.collapsible[data-open="true"] > .collapsible-inner {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* ---------- 4. Reduced motion: everything visible at once, nothing moves ---------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-motion] .reveal,
+  [data-motion] .reveal-item {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .anim-fade-up,
+  .anim-fade-in { animation: none !important; }
+  .collapsible,
+  .collapsible > .collapsible-inner { transition: none !important; }
+}

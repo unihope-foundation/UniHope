@@ -25,17 +25,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.ticker-track {
-  display: flex;
-  width: 200%;
-  animation: ticker-scroll-right 24s linear infinite;
-}
-
-.ticker-group {
-  flex: 0 0 50%;
-}
-
-@keyframes ticker-scroll-right {
+@keyframes ticker-right {
   from {
     transform: translateX(-50%);
   }
@@ -43,4 +33,17 @@ body {
   to {
     transform: translateX(0);
   }
+}
+
+.ticker-ribbon {
+  container-type: inline-size;
+}
+
+.ticker-ribbon-group {
+  min-width: 100cqw;
+}
+
+.ticker-ribbon-track {
+  width: max-content;
+  animation: ticker-right 24s linear infinite;
 }
