@@ -97,7 +97,7 @@ const DEFAULT_VALUES = [
 ];
 
 const DEFAULT_TEAM: TeamMember[] = [
-  { name: "Abubacker Siddique", role: "Founder & Managing Trustee", designation: "Trustee" },
+  { name: "Bala Vinish", role: "Founder & Managing Trustee", designation: "Trustee" },
   { name: "Trustee Member", role: "Treasurer & Finance", designation: "Trustee" },
   { name: "Trustee Member", role: "Healthcare Operations", designation: "Trustee" },
   { name: "Trustee Member", role: "Education Initiatives", designation: "Trustee" },
@@ -340,7 +340,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
             </div>
             <div className="mt-4 sm:mt-6 pl-4 sm:pl-6">
               <h4 className="font-extrabold text-[#0A2540] text-sm sm:text-base">
-                Abubacker Siddique
+                Bala Vinish
               </h4>
               <p className="text-xs text-gray-500">
                 Founder & Managing Trustee, UniHope Foundation
