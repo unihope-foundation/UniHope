@@ -1,25 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { MapPin, ArrowUpRight } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
-import {
-  Activity,
-  GraduationCap,
-  Briefcase,
-  Users,
-  HandHeart,
-  Smile,
-  Home as HomeIcon,
-  Leaf,
-  FileText,
-  Share2,
-  ChevronDown,
-  ChevronUp,
-  MapPin,
-  ArrowUpRight,
-} from "lucide-react";
 
 export interface PillarItem {
   id: string;
@@ -28,7 +13,6 @@ export interface PillarItem {
   subtitle: string;
   description: string;
   badges: string[];
-  icon: React.ReactNode;
 }
 
 const PILLARS: PillarItem[] = [
@@ -40,7 +24,6 @@ const PILLARS: PillarItem[] = [
     description:
       "We support medical assistance for people who cannot afford to pay for it, health awareness programmes and blood donation awareness. We also support with humanitarian help when a crisis hits.",
     badges: ["Medical assistance", "Health camps", "Emergency relief"],
-    icon: <Activity className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "02",
@@ -50,7 +33,6 @@ const PILLARS: PillarItem[] = [
     description:
       "Scholarships, textbooks, uniforms, evening study centres, and foundational learning support for students from underprivileged backgrounds.",
     badges: ["Scholarships", "School kits", "Study centres"],
-    icon: <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "03",
@@ -60,7 +42,6 @@ const PILLARS: PillarItem[] = [
     description:
       "Vocational courses, digital literacy, sewing and tailoring, and micro-entrepreneurship mentoring for youth and women.",
     badges: ["Vocational courses", "Job training", "Micro-enterprise"],
-    icon: <Briefcase className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "04",
@@ -70,7 +51,6 @@ const PILLARS: PillarItem[] = [
     description:
       "Empowering self-help groups, addressing child nutrition deficiencies, and creating safe, dignified spaces for vulnerable women and girls.",
     badges: ["Nutrition care", "Self-help groups", "Safety nets"],
-    icon: <Users className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "05",
@@ -80,7 +60,6 @@ const PILLARS: PillarItem[] = [
     description:
       "Direct aid, groceries, mobility aids, and elderly care for neglected senior citizens, differently-abled persons, and abandoned individuals.",
     badges: ["Elderly care", "Mobility support", "Ration kits"],
-    icon: <HandHeart className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "06",
@@ -90,7 +69,6 @@ const PILLARS: PillarItem[] = [
     description:
       "De-stigmatizing mental health, providing professional community counseling, stress workshops, and psychosocial support.",
     badges: ["Counseling", "Awareness camps", "Wellness circles"],
-    icon: <Smile className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "07",
@@ -100,7 +78,6 @@ const PILLARS: PillarItem[] = [
     description:
       "Clean water installations, sanitation facilities, community hall revamps, and disaster preparedness in underserved settlements.",
     badges: ["Clean water", "Sanitation", "Civic amenities"],
-    icon: <HomeIcon className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "08",
@@ -110,7 +87,6 @@ const PILLARS: PillarItem[] = [
     description:
       "Urban afforestation, tree sapling plantation drives, community compost pits, and environmental education in local schools.",
     badges: ["Tree planting", "Waste management", "Eco-clubs"],
-    icon: <Leaf className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "09",
@@ -120,7 +96,6 @@ const PILLARS: PillarItem[] = [
     description:
       "Conducting ground-level socio-economic surveys, identifying unmet local needs, and raising civic awareness on rights and schemes.",
     badges: ["Surveys", "Policy awareness", "Impact audits"],
-    icon: <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
   {
     id: "10",
@@ -130,21 +105,14 @@ const PILLARS: PillarItem[] = [
     description:
       "Collaborating with local hospitals, universities, corporate CSR arms, and partner charities to maximize collective community impact.",
     badges: ["CSR alignment", "Institutional tie-ups", "NGO networks"],
-    icon: <Share2 className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />,
   },
 ];
 
 export function OurWork({ className = "" }: { className?: string }) {
-  // Default first pillar open as shown in mockup
-  const [openPillars, setOpenPillars] = useState<Record<string, boolean>>({
-    "01": true,
-  });
+  const [openPillar, setOpenPillar] = useState<string | null>(null);
 
   const togglePillar = (id: string) => {
-    setOpenPillars((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+    setOpenPillar((current) => (current === id ? null : id));
   };
 
   return (
@@ -186,14 +154,11 @@ export function OurWork({ className = "" }: { className?: string }) {
           </span>
         </div>
       </section>
-      
+
       {/* ========================================================= */}
       {/* 2. TICKER RIBBON                                          */}
       {/* ========================================================= */}
-    
-      <section>
       <TickerRibbon />
-      </section>
 
       {/* ========================================================= */}
       {/* 3. TEN PILLARS OF SERVICE (Accordion Cards)               */}
@@ -212,75 +177,86 @@ export function OurWork({ className = "" }: { className?: string }) {
           </p>
         </div>
 
-        {/* 10 Pillars Grid (Single column on mobile, 2 columns on lg) */}
-        <div className="mt-8 sm:mt-12 grid grid-cols-1 gap-3.5 sm:gap-6 lg:grid-cols-2 items-start">
-          {PILLARS.map((pillar) => {
-            const isOpen = !!openPillars[pillar.id];
+        {/* 10 Pillars Grid */}
+        <div className="mt-8 grid grid-cols-1 items-start gap-6 md:mt-12 md:grid-cols-12">
+          {PILLARS.map((pillar, index) => {
+            const isOpen = openPillar === pillar.id;
+            const span =
+              index % 4 === 0 || index % 4 === 3
+                ? "md:col-span-7"
+                : "md:col-span-5";
+            const detailsId = `pillar-details-${pillar.id}`;
 
             return (
-              <div
+              <article
                 key={pillar.id}
-                className={`rounded-2xl border transition-all duration-200 bg-white shadow-xs ${
-                  isOpen
-                    ? "border-[#0A2540]/30 ring-1 ring-[#0A2540]/10 shadow-sm"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
+                className={`group flex min-h-[312px] flex-col justify-between rounded-[20px] border border-[#D9D3C5] bg-[#FBFAF6] p-6 transition duration-300 ease-out hover:-translate-y-1 hover:border-[#B9AE99] hover:bg-white hover:shadow-[0_16px_36px_rgba(41,39,34,0.10)] motion-reduce:transition-none sm:p-8 ${span}`}
               >
-                {/* Accordion Header Button */}
-                <button
-                  type="button"
-                  onClick={() => togglePillar(pillar.id)}
-                  className="w-full flex items-start justify-between p-4 sm:p-6 text-left cursor-pointer"
+                <div>
+                  <div className="flex items-start justify-between gap-3">
+                    <span className="font-bold text-3xl leading-none tracking-tight text-[#19181A] sm:text-[38px]">
+                      {pillar.id}
+                    </span>
+                    <div className="flex flex-wrap justify-end gap-1.5">
+                      {pillar.badges.map((badge) => (
+                        <span
+                          key={badge}
+                          className="rounded-md border border-[#D9D3C5] bg-[#F0EDE5] px-2.5 py-1.5 text-[9px] font-semibold leading-none tracking-wide text-[#292722] sm:text-[10px]"
+                        >
+                          {badge}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <h3 className="mt-5 font-sans text-xl font-bold leading-tight text-[#19181A] sm:text-[23px]">
+                    {pillar.title}
+                  </h3>
+                  <p className="mt-2 max-w-[480px] text-sm leading-[1.55] text-[#68656D] sm:text-base">
+                    {pillar.subtitle}
+                  </p>
+                </div>
+
+                <div
+                  id={detailsId}
+                  aria-hidden={!isOpen}
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
                 >
-                  <div className="flex items-start gap-3.5 sm:gap-4">
-                    <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 border border-gray-100">
-                      {pillar.icon}
-                    </div>
-                    <div>
-                      <span className="text-[10px] sm:text-[11px] font-bold tracking-[0.18em] text-[#2E7D32] uppercase">
-                        {pillar.pillarNumber}
-                      </span>
-                      <h3 className="mt-0.5 text-sm sm:text-lg font-bold text-[#0A2540] leading-snug">
-                        {pillar.title}
-                      </h3>
-                      <p className="mt-0.5 text-[11px] sm:text-sm text-gray-500">
-                        {pillar.subtitle}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="ml-2 sm:ml-3 shrink-0 pt-1 text-gray-400">
-                    {isOpen ? (
-                      <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 text-[#0A2540]" />
-                    ) : (
-                      <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5" />
-                    )}
-                  </div>
-                </button>
-
-                {/* Accordion Expanded Content */}
-                {isOpen && (
-                  <div className="px-4 pb-5 sm:px-6 sm:pb-6 pt-1 border-t border-gray-100/80">
-                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mt-2.5 sm:mt-3">
+                  <div className="min-h-0 overflow-hidden">
+                    <p className="mt-5 border-t border-[#D9D3C5] pt-4 text-sm leading-relaxed text-[#68656D] sm:pt-5 sm:text-base">
                       {pillar.description}
                     </p>
-
-                    {/* Sub-Badges */}
-                    {pillar.badges && pillar.badges.length > 0 && (
-                      <div className="mt-3.5 sm:mt-4 flex flex-wrap gap-1.5 sm:gap-2">
-                        {pillar.badges.map((badge) => (
-                          <span
-                            key={badge}
-                            className="inline-flex items-center rounded-full border border-gray-200 bg-slate-50 px-2.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-[11px] font-medium text-gray-700"
-                          >
-                            {badge}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                   </div>
-                )}
-              </div>
+                </div>
+
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-controls={detailsId}
+                  onClick={() => togglePillar(pillar.id)}
+                  className="mt-5 flex w-full cursor-pointer items-center justify-between border-t border-[#D9D3C5] pt-4 text-left sm:pt-5"
+                >
+                  <span className="text-sm font-semibold text-[#19181A] sm:text-base">
+                    {isOpen ? "Close details" : "Explore pillar"}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-[#19181A] text-white transition-transform duration-300 group-hover:rotate-45 motion-reduce:transition-none sm:h-14 sm:w-14"
+                  >
+                    <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5">
+                      <path
+                        d="M5.5 14.5 14 6m0 0H7m7 0v7"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </article>
             );
           })}
         </div>
