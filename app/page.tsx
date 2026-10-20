@@ -1,6 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import miniclassImg from "@/assets/miniclass.svg";
+import studentsImg from "@/assets/students.svg";
+import classImg from "@/assets/class.svg";
 import {
   Activity,
   GraduationCap,
@@ -89,7 +92,7 @@ export default function Home() {
           {/* Photo */}
           <div className="relative overflow-hidden rounded-[2rem] shadow-xs aspect-[586/418] w-full">
             <Image
-              src="/assets/miniclass.svg"
+              src={miniclassImg}
               alt="Outdoor village classroom in Tamil Nadu"
               fill
               priority
@@ -138,7 +141,7 @@ export default function Home() {
 
             <div className="relative overflow-hidden rounded-[2rem] lg:col-span-6 shadow-xs aspect-[586/418] w-full">
               <Image
-                src="/assets/miniclass.svg"
+                src={miniclassImg}
                 alt="Outdoor village classroom in Tamil Nadu"
                 fill
                 priority
@@ -151,7 +154,7 @@ export default function Home() {
           <div className="mt-6 grid grid-cols-12 gap-6 items-center">
             <div className="relative overflow-hidden rounded-[2rem] lg:col-span-5 shadow-xs aspect-[376/282] w-full">
               <Image
-                src="/assets/students.svg"
+                src={studentsImg}
                 alt="Two smiling students studying with notebooks"
                 fill
                 className="object-cover"
@@ -281,7 +284,7 @@ export default function Home() {
           {/* Background Image Banner */}
           <div className="relative aspect-[16/10] sm:aspect-[1198/518] min-h-[220px] sm:min-h-[440px] w-full">
             <Image
-              src="/assets/class.svg"
+              src={classImg}
               alt="UniHope village classroom story"
               fill
               className="object-cover"

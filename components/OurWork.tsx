@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ourWorkBanner from "@/assets/our-work-banner.svg";
 import {
   Activity,
   GraduationCap,
@@ -168,7 +169,7 @@ export function OurWork({ className = "" }: { className?: string }) {
         <div className="mt-6 sm:mt-8 relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-sm">
           <div className="relative aspect-[16/10] sm:aspect-[1198/518] min-h-[220px] sm:min-h-[440px] w-full">
             <Image
-              src="/assets/class.svg"
+              src={ourWorkBanner}
               alt="UNIHOPE community gathering in Chennai"
               fill
               priority

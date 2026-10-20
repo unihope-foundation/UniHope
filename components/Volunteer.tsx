@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import communityGathering from "@/assets/community-gathering.svg";
+import studentsImg from "@/assets/students.svg";
+import classImg from "@/assets/class.svg";
 import {
   Clock,
   Briefcase,
@@ -283,7 +286,7 @@ export function Volunteer() {
             <div className="lg:col-span-6 flex flex-col items-start gap-4 w-full">
               <div className="relative rounded-3xl border border-[#D6D6D6] bg-[#EEEDEC] shadow-[0_8px_24px_rgba(1,42,95,0.06)] w-full h-[320px] sm:h-[400px] lg:h-[420px] overflow-hidden group">
                 <Image
-                  src="/assets/community-gathering.svg"
+                  src={communityGathering}
                   alt="UNIHOPE Community Outreach in Chennai"
                   fill
                   priority
@@ -382,7 +385,7 @@ export function Volunteer() {
               <div className="lg:col-span-5 w-full">
                 <div className="relative rounded-3xl border border-[#D6D6D6] bg-[#EEEDEC] w-full h-[320px] sm:h-[380px] overflow-hidden shadow-inner group">
                   <Image
-                    src="/assets/students.svg"
+                    src={studentsImg}
                     alt="Volunteers and students at UNIHOPE study camp"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -628,7 +631,15 @@ export function Volunteer() {
                       className="w-4 h-4 rounded border-[#767676] text-[#012A5F] focus:ring-[#012A5F]"
                     />
                     <span className="text-[#012A5F] font-plusJakartaSans text-xs leading-4">
-                      I agree to the Privacy Policy
+                      I agree to the{" "}
+                      <Link
+                        href="/privacy-policy"
+                        target="_blank"
+                        className="underline hover:text-[#071D33]"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Privacy Policy
+                      </Link>
                     </span>
                   </label>
 
@@ -756,7 +767,7 @@ export function Volunteer() {
               <div className="lg:col-span-5 w-full">
                 <div className="relative rounded-3xl border border-white/20 bg-[#012A5F] w-full h-[220px] sm:h-[280px] overflow-hidden shadow-lg group">
                   <Image
-                    src="/assets/class.svg"
+                    src={classImg}
                     alt="Educational drive support"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"

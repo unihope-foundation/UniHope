@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import communityGathering from "@/assets/community-gathering.svg";
 import {
   CheckCircle2,
   ArrowUpRight,
@@ -184,7 +185,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
           <div className="lg:col-span-5 flex justify-center w-full">
             <div className="relative overflow-hidden rounded-[2rem] shadow-sm aspect-[454/568] w-full max-w-md mx-auto">
               <Image
-                src="/assets/community-gathering.svg"
+                src={communityGathering}
                 alt="Community gathering in Chennai"
                 fill
                 priority
