@@ -25,6 +25,9 @@ import {
   Heart,
   Sparkles,
 } from "lucide-react";
+import TickerRibbon from "./TickerRibbon";
+
+const VOLUNTEER_FORM_URL = "https://forms.gle/E7G9Sta8sb3eQm9w8";
 
 export interface ContributionPath {
   id: string;
@@ -259,16 +262,17 @@ export function Volunteer() {
               </p>
 
               <div className="flex items-center gap-4 flex-wrap">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(true)}
+                <a
+                  href={VOLUNTEER_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="cursor-pointer text-nowrap flex py-0 px-6 sm:px-7 justify-center items-center gap-2 rounded-full bg-[#012A5F] text-white shadow-md hover:bg-[#071D33] hover:shadow-lg active:scale-[0.98] transition-all h-12"
                 >
                   <span className="font-plusJakartaSans text-sm font-semibold leading-5">
                     Register as a volunteer
                   </span>
                   <ArrowUpRight className="w-4 h-4 text-white" />
-                </button>
+                </a>
 
                 <button
                   type="button"
@@ -308,26 +312,7 @@ export function Volunteer() {
       {/* ========================================================= */}
       {/* 2. RIBBON MARQUEE (ORANGE)                                */}
       {/* ========================================================= */}
-      <div className="w-full bg-[#F88C29] py-3 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.10),0_2px_4px_-2px_rgba(0,0,0,0.10)] overflow-hidden select-none">
-        <div className="animate-ticker flex items-center">
-          {Array.from({ length: 4 }).map((_, repeatIdx) => (
-            <div key={repeatIdx} className="flex items-center gap-6 shrink-0 px-3">
-              <span className="text-[#171717] font-outfit text-base sm:text-xl font-bold tracking-[0.05em] uppercase">
-                TOGETHER, WE BUILD HOPE
-              </span>
-              <span className="text-[#171717] font-outfit text-xs font-bold">•</span>
-              <span className="text-[#171717] font-outfit text-base sm:text-xl font-bold tracking-[0.05em] uppercase">
-                EVERY DREAM COUNTS
-              </span>
-              <span className="text-[#171717] font-outfit text-xs font-bold">•</span>
-              <span className="text-[#171717] font-outfit text-base sm:text-xl font-bold tracking-[0.05em] uppercase">
-                TRANSFORMING LIVES
-              </span>
-              <span className="text-[#171717] font-outfit text-xs font-bold">•</span>
-            </div>
-          ))}
-        </div>
-      </div>
+     <TickerRibbon />
 
       {/* ========================================================= */}
       {/* 3. PATHS OF CONTRIBUTION ("Four ways to help")             */}
@@ -395,9 +380,14 @@ export function Volunteer() {
 
               {/* Right Steps & Action */}
               <div className="lg:col-span-7 flex flex-col items-start">
-                <span className="text-[#2B711B] font-plusJakartaSans text-[13px] font-semibold leading-[18px] tracking-[0.08em] uppercase pb-2">
+                <a
+                  href={VOLUNTEER_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#2B711B] font-plusJakartaSans text-[13px] font-semibold leading-[18px] tracking-[0.08em] uppercase pb-2 hover:underline focus-visible:underline"
+                >
                   VOLUNTEER REGISTRATION
-                </span>
+                </a>
                 <h2 className="text-[#012A5F] font-outfit text-2xl sm:text-3xl lg:text-[28px] font-semibold leading-tight pb-3">
                   Become a volunteer
                 </h2>
@@ -432,18 +422,19 @@ export function Volunteer() {
 
                 {/* Action Button & Note */}
                 <div className="flex flex-col items-start gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(true)}
+                  <a
+                    href={VOLUNTEER_FORM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="cursor-pointer text-nowrap flex py-0 px-8 justify-center items-center gap-2 rounded-full bg-[#012A5F] text-white shadow-md hover:bg-[#071D33] hover:shadow-lg active:scale-[0.98] transition-all h-12"
                   >
                     <span className="font-plusJakartaSans text-sm font-semibold leading-5">
                       Open registration form
                     </span>
                     <ArrowUpRight className="w-4 h-4 text-white" />
-                  </button>
+                  </a>
                   <p className="text-[#5A5A5A] font-plusJakartaSans text-xs leading-4">
-                    Opens interactive registration. We respect your privacy.
+                    Opens the volunteer registration form in Google Forms.
                   </p>
                 </div>
               </div>
@@ -741,16 +732,17 @@ export function Volunteer() {
                 </p>
 
                 <div className="flex items-center gap-4 flex-wrap">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(true)}
+                  <a
+                    href={VOLUNTEER_FORM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="cursor-pointer text-nowrap flex py-0 px-8 justify-center items-center gap-2 rounded-full bg-white text-[#012A5F] hover:bg-gray-100 shadow-md active:scale-[0.98] transition-all h-12"
                   >
                     <span className="font-plusJakartaSans text-sm font-semibold leading-5">
                       Become a volunteer
                     </span>
                     <ArrowUpRight className="w-4 h-4 text-[#012A5F]" />
-                  </button>
+                  </a>
 
                   <Link
                     href="/donate"

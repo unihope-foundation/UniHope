@@ -47,7 +47,10 @@ export default function RootLayout({
       <head>
         <MotionInit />
       </head>
-      <body className="min-h-full flex flex-col bg-white text-gray-900">
+      <body
+        className="min-h-full flex flex-col bg-white text-gray-900"
+        suppressHydrationWarning
+      >
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -5,15 +5,12 @@ import Link from "next/link";
 import {
   Phone,
   Mail,
-  MapPin,
   ArrowUpRight,
   Send,
   Check,
   ChevronDown,
-  Building,
-  Heart,
-  ExternalLink,
 } from "lucide-react";
+import TickerRibbon from "./TickerRibbon";
 
 export function Contact() {
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
@@ -80,27 +77,8 @@ export function Contact() {
       {/* ========================================================= */}
       {/* 2. RIBBON MARQUEE (WARM ORANGE)                           */}
       {/* ========================================================= */}
-      <div className="w-full bg-[#F88C29] py-3 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.10),0_2px_4px_-2px_rgba(0,0,0,0.10)] overflow-hidden select-none">
-        <div className="animate-ticker flex items-center">
-          {Array.from({ length: 4 }).map((_, repeatIdx) => (
-            <div key={repeatIdx} className="flex items-center gap-6 shrink-0 px-3">
-              <span className="text-[#171717] font-outfit text-base sm:text-xl font-bold tracking-[0.05em] uppercase">
-                TOGETHER, WE BUILD HOPE
-              </span>
-              <span className="text-[#171717] font-outfit text-xs font-bold">•</span>
-              <span className="text-[#171717] font-outfit text-base sm:text-xl font-bold tracking-[0.05em] uppercase">
-                EVERY DREAM COUNTS
-              </span>
-              <span className="text-[#171717] font-outfit text-xs font-bold">•</span>
-              <span className="text-[#171717] font-outfit text-base sm:text-xl font-bold tracking-[0.05em] uppercase">
-                TRANSFORMING LIVES
-              </span>
-              <span className="text-[#171717] font-outfit text-xs font-bold">•</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
+      
+<TickerRibbon />
       {/* ========================================================= */}
       {/* 3. MAIN CONTACT GRID                                      */}
       {/* ========================================================= */}
@@ -163,75 +141,16 @@ export function Contact() {
                   Reg. No. R/Chennai North Joint I/Book-4/228/2026
                 </p>
 
-                {/* Google Maps Button */}
-                <a
-                  href={googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex py-3 px-6 justify-center items-center gap-2 rounded-full border border-[#3D3D3D] text-[#012A5F] hover:bg-[#012A5F] hover:text-white hover:border-[#012A5F] transition-all font-plusJakartaSans text-sm font-semibold mb-6"
-                >
-                  <span>Open in Google Maps</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
+              
 
-                {/* Styled Vadapalani Vector Map View */}
-                <div className="w-full h-[240px] sm:h-[260px] rounded-[20px] border border-[#D6D6D6] bg-[#ECE9E4] overflow-hidden relative shadow-inner">
-                  {/* Schematic Background Roads & Blocks */}
-                  <div className="absolute inset-0 bg-[#E8E5DF]">
-                    {/* Green zone accents */}
-                    <div className="absolute top-0 left-0 w-28 h-10 bg-[#DDE4DB] rounded-br-3xl" />
-                    <div className="absolute bottom-0 right-0 w-24 h-12 bg-[#E1E6DD] rounded-tl-3xl" />
-
-                    {/* Major Road 1: Inner Ring Road (Angled) */}
-                    <div className="absolute -top-6 left-16 w-8 h-80 bg-white rotate-12 shadow-sm" />
-                    <div className="absolute -top-6 left-[70px] w-5 h-80 bg-[#DDD7CC] rotate-12" />
-
-                    {/* Major Road 2: Arcot Road (Horizontal) */}
-                    <div className="absolute top-28 -left-6 w-full h-8 bg-white shadow-sm" />
-                    <div className="absolute top-[118px] -left-6 w-full h-4 bg-[#DDD7CC]" />
-
-                    {/* Secondary Cross Street */}
-                    <div className="absolute top-10 left-28 w-44 h-4 bg-white rotate-[-3deg]" />
-                    <div className="absolute top-[42px] left-28 w-44 h-2 bg-[#E5E0D8] rotate-[-3deg]" />
-
-                    {/* Street Labels */}
-                    <span className="absolute top-10 left-12 text-[9px] font-bold text-[#7A7873] uppercase tracking-wider rotate-12 select-none">
-                      Inner Ring Road
-                    </span>
-                    <span className="absolute top-24 left-2 text-[9px] font-bold text-[#7A7873] uppercase tracking-wider select-none">
-                      Arcot Road
-                    </span>
-                    <span className="absolute top-[78px] right-14 text-[9px] font-extrabold text-[#9C6B38] uppercase tracking-wider select-none">
-                      S Sivan Kovil St
-                    </span>
-
-                    {/* Building Blocks */}
-                    <div className="absolute top-14 right-16 w-16 h-10 bg-[#DCD6CA]/70 rounded-md" />
-                    <div className="absolute top-12 right-36 w-14 h-11 bg-[#DCD6CA]/70 rounded-md" />
-                    <div className="absolute bottom-10 right-20 w-20 h-8 bg-[#DCD6CA]/70 rounded-md" />
-                  </div>
-
-                  {/* Marker Pin: UNIHOPE Foundation */}
-                  <div className="absolute top-12 left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
-                    <div className="flex items-center gap-1.5 py-1.5 px-3 rounded-full bg-[#012A5F] text-white shadow-lg border border-white/20">
-                      <Heart className="w-3.5 h-3.5 fill-[#2B711B] text-[#2B711B]" />
-                      <span className="font-plusJakartaSans text-[11px] font-bold tracking-tight">
-                        UNIHOPE Foundation
-                      </span>
-                    </div>
-                    {/* Pin pointer triangle */}
-                    <div className="w-2.5 h-2.5 bg-[#012A5F] rotate-45 -mt-1.5 shadow-sm" />
-                    <div className="w-2 h-2 rounded-full bg-[#012A5F]/40 mt-1" />
-                  </div>
-
-                  {/* Bottom Map Badge */}
-                  <div className="absolute bottom-3 left-3 flex items-center gap-1.5 py-1.5 px-3 rounded-full bg-white/95 border border-[#D6D6D6] shadow-xs">
-                    <MapPin className="w-3.5 h-3.5 text-[#012A5F]" />
-                    <span className="text-[#012A5F] font-plusJakartaSans text-[11px] font-semibold">
-                      Vadapalani, Chennai
-                    </span>
-                  </div>
-                </div>
+                <iframe
+                  title="UNIHOPE Foundation on Google Maps"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.8224077381533!2d80.20828817371721!3d13.046973587275383!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5267b010e0cfcb%3A0x5f463f6e74bc75ac!2sUnihope%20Foundation!5e0!3m2!1sen!2sin!4v1792497413383!5m2!1sen!2sin"
+                  className="h-[240px] w-full rounded-[20px] border-0 sm:h-[260px]"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
               </div>
             </div>
 
@@ -270,7 +189,7 @@ export function Contact() {
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-5 w-full">
                   {/* Full Name */}
                   <div className="flex flex-col items-start gap-1 w-full">
-                    <label className="text-[#BA1A1A] font-plusJakartaSans text-sm font-semibold leading-6">
+                    <label className="text-[#3D3D3D] font-plusJakartaSans text-sm font-semibold leading-6">
                       Full name *
                     </label>
                     <input
@@ -287,7 +206,7 @@ export function Contact() {
 
                   {/* Email address */}
                   <div className="flex flex-col items-start gap-1 w-full">
-                    <label className="text-[#BA1A1A] font-plusJakartaSans text-sm font-semibold leading-6">
+                    <label className="text-[#3D3D3D] font-plusJakartaSans text-sm font-semibold leading-6">
                       Email address *
                     </label>
                     <input
@@ -343,7 +262,7 @@ export function Contact() {
 
                   {/* Message textarea */}
                   <div className="flex flex-col items-start gap-1 w-full">
-                    <label className="text-[#BA1A1A] font-plusJakartaSans text-sm font-semibold leading-6">
+                    <label className="text-[#3D3D3D] font-plusJakartaSans text-sm font-semibold leading-6">
                       Message *
                     </label>
                     <textarea
