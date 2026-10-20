@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import communityGathering from "@/assets/community-gathering.svg";
 import {
   CheckCircle2,
   ArrowUpRight,
@@ -97,14 +98,46 @@ const DEFAULT_VALUES = [
 ];
 
 const DEFAULT_TEAM: TeamMember[] = [
-  { name: "Abubacker Siddique", role: "Founder & Managing Trustee", designation: "Trustee" },
-  { name: "Trustee Member", role: "Treasurer & Finance", designation: "Trustee" },
-  { name: "Trustee Member", role: "Healthcare Operations", designation: "Trustee" },
-  { name: "Trustee Member", role: "Education Initiatives", designation: "Trustee" },
-  { name: "Trustee Member", role: "Community Outreach", designation: "Trustee" },
-  { name: "Trustee Member", role: "Youth & Skill Development", designation: "Trustee" },
-  { name: "Trustee Member", role: "Legal & Compliance", designation: "Trustee" },
-  { name: "Trustee Member", role: "Volunteer Coordination", designation: "Trustee" },
+  {
+    name: "Bala Vinish",
+    role: "Founder & Managing Trustee",
+    designation: "Trustee",
+  },
+  {
+    name: "Trustee Member",
+    role: "Treasurer & Finance",
+    designation: "Trustee",
+  },
+  {
+    name: "Trustee Member",
+    role: "Healthcare Operations",
+    designation: "Trustee",
+  },
+  {
+    name: "Trustee Member",
+    role: "Education Initiatives",
+    designation: "Trustee",
+  },
+  {
+    name: "Trustee Member",
+    role: "Community Outreach",
+    designation: "Trustee",
+  },
+  {
+    name: "Trustee Member",
+    role: "Youth & Skill Development",
+    designation: "Trustee",
+  },
+  {
+    name: "Trustee Member",
+    role: "Legal & Compliance",
+    designation: "Trustee",
+  },
+  {
+    name: "Trustee Member",
+    role: "Volunteer Coordination",
+    designation: "Trustee",
+  },
 ];
 
 export function AboutUs({ className = "" }: AboutUsProps) {
@@ -185,7 +218,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
           <div className="lg:col-span-5 flex justify-center w-full">
             <div className="relative overflow-hidden rounded-[2rem] shadow-sm aspect-[454/568] w-full max-w-md mx-auto">
               <Image
-                src="/assets/community-gathering.svg"
+                src={communityGathering}
                 alt="Community gathering in Chennai"
                 fill
                 priority
@@ -340,17 +373,9 @@ export function AboutUs({ className = "" }: AboutUsProps) {
             </div>
             <div className="mt-4 sm:mt-6 pl-4 sm:pl-6">
               <h4 className="font-extrabold text-[#0A2540] text-sm sm:text-base">
-                Abubacker Siddique
+                Bala Vinish
               </h4>
-              <p className="text-xs text-gray-500">
-                Founder & Managing Trustee, UniHope Foundation
-              </p>
             </div>
-          </Reveal>
-
-          {/* Profile Photo Placeholder */}
-          <Reveal variant="fade" className="flex h-44 w-full sm:w-48 sm:h-48 md:w-48 md:h-48 shrink-0 items-center justify-center rounded-2xl sm:rounded-3xl bg-slate-100 border border-gray-200 text-gray-400 shadow-inner">
-            <User className="h-14 w-14 sm:h-16 sm:w-16" />
           </Reveal>
         </div>
       </section>

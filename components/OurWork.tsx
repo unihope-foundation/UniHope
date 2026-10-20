@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ourWorkBanner from "@/assets/our-work-banner.svg";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
 
@@ -137,7 +138,7 @@ export function OurWork({ className = "" }: { className?: string }) {
         <div className="mt-6 sm:mt-8 relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-sm">
           <div className="relative aspect-[16/10] sm:aspect-[1198/518] min-h-[220px] sm:min-h-[440px] w-full">
             <Image
-              src="/assets/class.svg"
+              src={ourWorkBanner}
               alt="UNIHOPE community gathering in Chennai"
               fill
               priority
@@ -220,9 +221,8 @@ export function OurWork({ className = "" }: { className?: string }) {
                 <div
                   id={detailsId}
                   aria-hidden={!isOpen}
-                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${
-                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                  }`}
+                  className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
                 >
                   <div className="min-h-0 overflow-hidden">
                     <p className="mt-5 border-t border-[#D9D3C5] pt-4 text-sm leading-relaxed text-[#68656D] sm:pt-5 sm:text-base">
