@@ -29,8 +29,50 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "UniHope Foundation",
-  description: "Empowering communities and inspiring hope through sustainable action.",
+  metadataBase: new URL("https://unihopefoundation.org"),
+  title: {
+    default: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
+    template: "%s | UNIHOPE Foundation",
+  },
+  openGraph: {
+    siteName: "UNIHOPE Foundation",
+    locale: "en_IN",
+    type: "website",
+  },
+};
+
+const organizationStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "UNIHOPE Foundation",
+      url: "https://unihopefoundation.org",
+      logo: "https://unihopefoundation.org/UNIHOPE_LOGO.svg",
+      email: "unihopefoundation.official@gmail.com",
+      telephone: "+91 91501 49339",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress:
+          "2nd Floor, No. 73, S Sivan Kovil Street, opp. Ambiga Driving School, Ottagapalayam, Sector 15, Vadapalani, Chennai, Tamil Nadu 600026",
+        addressLocality: "Chennai",
+        addressRegion: "Tamil Nadu",
+        postalCode: "600026",
+        addressCountry: "IN",
+      },
+      sameAs: [
+        "https://www.instagram.com/unihopefoundation.official",
+        "https://www.youtube.com/@UNIHOPEFoundation",
+        "https://x.com/unihopefdn",
+        "https://www.facebook.com/share/19L4K3tHiY/?mibextid=wwXIfr",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      name: "UNIHOPE Foundation",
+      url: "https://unihopefoundation.org",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -47,10 +89,13 @@ export default function RootLayout({
       <head>
         <MotionInit />
       </head>
-      <body
-        className="min-h-full flex flex-col bg-white text-gray-900"
-        suppressHydrationWarning
-      >
+      <body className="min-h-full flex flex-col bg-white text-gray-900">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationStructuredData),
+          }}
+        />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
