@@ -1,19 +1,19 @@
+// app/sitemap.ts
 import type { MetadataRoute } from "next";
 
 const siteUrl = "https://unihopefoundation.org";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    "",
-    "/about",
-    "/our-work",
-    "/volunteer",
-    "/contact",
-    "/privacy-policy",
-    "/terms-of-service",
-  ];
+// Add "/donate" here once the Donate page is live and returns 200.
+const paths = [
+  "/",
+  "/about",
+  "/our-work",
+  "/volunteer",
+  "/contact",
+  "/privacy-policy",
+  "/terms-of-service",
+];
 
-  return routes.map((route) => ({
-    url: `${siteUrl}${route}`,
-  }));
+export default function sitemap(): MetadataRoute.Sitemap {
+  return paths.map((path) => ({ url: `${siteUrl}${path}` }));
 }
