@@ -1,29 +1,25 @@
 import React from "react";
 
-function TickerContent() {
-  return (
-    <div className="ticker-ribbon-group flex shrink-0 items-center justify-around px-4 text-xs font-extrabold uppercase tracking-widest text-[#0A2540] sm:text-sm">
-      <span>TOGETHER, WE BUILD HOPE</span>
-      <span className="mx-2">•</span>
-      <span>EVERY DREAM COUNTS</span>
-      <span className="mx-2">•</span>
-      <span>TRANSFORMING LIVES</span>
-      <span className="hidden mx-2 sm:inline">•</span>
-      <span className="hidden sm:inline">TOGETHER, WE BUILD HOPE</span>
-      <span className="hidden mx-2 md:inline">•</span>
-      <span className="hidden md:inline">EVERY DREAM COUNTS</span>
-    </div>
-  );
-}
-
 export function TickerRibbon() {
   return (
-    <div className="ticker-ribbon w-full overflow-hidden bg-[#FF8000] py-3.5 shadow-xs select-none">
-      <div className="ticker-ribbon-track flex whitespace-nowrap">
-        <TickerContent />
-        <div aria-hidden="true" className="flex">
-          <TickerContent />
-        </div>
+    <div className="w-full overflow-hidden bg-[#F88C29] py-3 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.10),0_2px_4px_-2px_rgba(0,0,0,0.10)] select-none">
+      <div className="animate-ticker flex items-center">
+        {Array.from({ length: 4 }).map((_, repeatIdx) => (
+          <div key={repeatIdx} className="flex shrink-0 items-center gap-6 px-3">
+            <span className="font-outfit text-base font-bold uppercase tracking-[0.05em] text-[#171717] sm:text-xl">
+              TOGETHER, WE BUILD HOPE
+            </span>
+            <span className="font-outfit text-xs font-bold text-[#171717]">•</span>
+            <span className="font-outfit text-base font-bold uppercase tracking-[0.05em] text-[#171717] sm:text-xl">
+              EVERY DREAM COUNTS
+            </span>
+            <span className="font-outfit text-xs font-bold text-[#171717]">•</span>
+            <span className="font-outfit text-base font-bold uppercase tracking-[0.05em] text-[#171717] sm:text-xl">
+              TRANSFORMING LIVES
+            </span>
+            <span className="font-outfit text-xs font-bold text-[#171717]">•</span>
+          </div>
+        ))}
       </div>
     </div>
   );
