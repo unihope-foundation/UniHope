@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import miniclassImg from "@/assets/miniclass.svg";
@@ -17,6 +18,28 @@ import {
   Heart,
 } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
+
+const homeDescription =
+  "UNIHOPE Foundation is a registered charitable trust in Chennai working on education, healthcare, livelihoods and community welfare. Donate or volunteer.";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
+  },
+  description: homeDescription,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
+    description: homeDescription,
+    url: "https://unihopefoundation.org/",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
+    description: homeDescription,
+  },
+};
 
 export default function Home() {
   const focusAreas = [
@@ -135,9 +158,9 @@ export default function Home() {
               <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
                 Registered Charitable Trust, Chennai
               </span>
-              <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-[#0A2540] lg:text-[44px] lg:leading-[1.18]">
+              <div className="mt-6 text-4xl font-extrabold tracking-tight text-[#0A2540] lg:text-[44px] lg:leading-[1.18]">
                 A fair start for every person in our community.
-              </h1>
+              </div>
             </div>
 
             <div className="relative overflow-hidden rounded-[2rem] lg:col-span-6 shadow-xs aspect-[586/418] w-full">

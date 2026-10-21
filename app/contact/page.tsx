@@ -2,9 +2,23 @@ import type { Metadata } from "next";
 import { Contact } from "@/components/Contact";
 
 export const metadata: Metadata = {
-  title: "Contact Us • UniHope Foundation",
+  title: "Contact",
   description:
-    "Get in touch with UNIHOPE Foundation in Vadapalani, Chennai. Call +91 91501 49339 or write to unihopefoundation.official@gmail.com for inquiries, partnerships, or volunteering.",
+    "Write to UNIHOPE Foundation or find our registered office in Vadapalani, Chennai.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact | UNIHOPE Foundation",
+    description:
+      "Write to UNIHOPE Foundation or find our registered office in Vadapalani, Chennai.",
+    url: "https://unihopefoundation.org/contact",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact | UNIHOPE Foundation",
+    description:
+      "Write to UNIHOPE Foundation or find our registered office in Vadapalani, Chennai.",
+  },
 };
 
 export default function ContactPage() {
