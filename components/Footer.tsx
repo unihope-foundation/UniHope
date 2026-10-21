@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Heart, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Heart, MapPin, Phone, Mail } from "lucide-react";
 
 export interface FooterLink {
   label: string;
@@ -23,7 +23,6 @@ export interface FooterProps {
   addressLines?: string[];
   phone?: string;
   email?: string;
-  workingHours?: string;
   registrationText?: string;
   copyrightYear?: number | string;
   className?: string;
@@ -38,7 +37,6 @@ const DEFAULT_QUICK_LINKS: FooterLink[] = [
 ];
 
 const DEFAULT_LEGAL_LINKS: FooterLink[] = [
-  { label: "Statutory Disclosures", href: "/disclosures" },
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms of Service", href: "/terms-of-service" },
 ];
@@ -128,9 +126,8 @@ export function Footer({
   quickLinks = DEFAULT_QUICK_LINKS,
   legalLinks = DEFAULT_LEGAL_LINKS,
   addressLines = DEFAULT_ADDRESS_LINES,
-  phone = "+91 9143380 0000",
+  phone = "+91 91501 49339",
   email = "trustee@unihopefoundation.org",
-  workingHours = "Monday - Saturday: 09:30 AM - 05:30 PM IST",
   registrationText = "Registered Charitable Trust - Reg. No. R/Chennai North Joint I/Book-4/228/2026",
   copyrightYear = "2026",
   className = "",
@@ -257,13 +254,6 @@ export function Footer({
                   >
                     {email}
                   </a>
-                </div>
-              )}
-
-              {workingHours && (
-                <div className="flex items-center gap-3">
-                  <Clock className="h-4 w-4 text-[#4ADE80] shrink-0" />
-                  <span>{workingHours}</span>
                 </div>
               )}
             </div>
