@@ -4,12 +4,12 @@ import { Contact } from "@/components/Contact";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Write to UNIHOPE Foundation or find our registered office in Vadapalani, Chennai.",
+    "Contact UNIHOPE Foundation in Vadapalani, Chennai, for general questions, volunteer enquiries and CSR or institutional partnership enquiries.",
   alternates: { canonical: "/contact" },
   openGraph: {
     title: "Contact | UNIHOPE Foundation",
     description:
-      "Write to UNIHOPE Foundation or find our registered office in Vadapalani, Chennai.",
+      "Contact UNIHOPE Foundation in Vadapalani, Chennai, for general questions, volunteer enquiries and CSR or institutional partnership enquiries.",
     url: "https://unihopefoundation.org/contact",
     type: "website",
   },
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Contact | UNIHOPE Foundation",
     description:
-      "Write to UNIHOPE Foundation or find our registered office in Vadapalani, Chennai.",
+      "Contact UNIHOPE Foundation in Vadapalani, Chennai, for general questions, volunteer enquiries and CSR or institutional partnership enquiries.",
   },
 };
 

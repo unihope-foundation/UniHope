@@ -6,22 +6,22 @@ import { DonationForm } from "@/components/DonationForm";
 import { COMMITMENTS, FAQ, HELPLINE, HERO_IMAGE, REG_NO, TRUST_CARDS } from "@/content/donate";
 
 export const metadata: Metadata = {
-  title: "Donate",
+  title: "Donate in Chennai",
   description:
-    "Support education, healthcare, hunger relief and community welfare through UNIHOPE Foundation.",
+    "Learn how to support UNIHOPE Foundation's charitable work in Chennai, including education, healthcare, hunger relief and community welfare.",
   alternates: { canonical: "/donate" },
   openGraph: {
-    title: "Donate | UNIHOPE Foundation",
+    title: "Donate in Chennai | UNIHOPE Foundation",
     description:
-      "Support education, healthcare, hunger relief and community welfare through UNIHOPE Foundation.",
+      "Learn how to support UNIHOPE Foundation's charitable work in Chennai, including education, healthcare, hunger relief and community welfare.",
     url: "https://unihopefoundation.org/donate",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Donate | UNIHOPE Foundation",
+    title: "Donate in Chennai | UNIHOPE Foundation",
     description:
-      "Support education, healthcare, hunger relief and community welfare through UNIHOPE Foundation.",
+      "Learn how to support UNIHOPE Foundation's charitable work in Chennai, including education, healthcare, hunger relief and community welfare.",
   },
 };
 

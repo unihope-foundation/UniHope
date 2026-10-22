@@ -4,7 +4,7 @@ import { AboutUs } from "@/components/AboutUs";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Why UNIHOPE Foundation was started, and the vision, mission and values that guide our work.",
+    "About UNIHOPE Foundation, a registered charitable trust in Chennai. Learn why it was started and about the vision, mission and values that guide its work.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About | UNIHOPE Foundation",

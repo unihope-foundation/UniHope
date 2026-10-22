@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
     description: homeDescription,
-    url: "https://unihopefoundation.org/",
+    url: "https://unihopefoundation.org",
     type: "website",
   },
   twitter: {
