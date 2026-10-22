@@ -2,22 +2,22 @@ import type { Metadata } from "next";
 import { Volunteer } from "@/components/Volunteer";
 
 export const metadata: Metadata = {
-  title: "Volunteer",
+  title: "Volunteer in Chennai",
   description:
-    "Give your time, skills or support. Register to volunteer with UNIHOPE Foundation.",
+    "Explore volunteer opportunities with UNIHOPE Foundation in Chennai. Give your time, skills or support and register to get involved.",
   alternates: { canonical: "/volunteer" },
   openGraph: {
-    title: "Volunteer | UNIHOPE Foundation",
+    title: "Volunteer in Chennai | UNIHOPE Foundation",
     description:
-      "Give your time, skills or support. Register to volunteer with UNIHOPE Foundation.",
+      "Explore volunteer opportunities with UNIHOPE Foundation in Chennai. Give your time, skills or support and register to get involved.",
     url: "https://unihopefoundation.org/volunteer",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Volunteer | UNIHOPE Foundation",
+    title: "Volunteer in Chennai | UNIHOPE Foundation",
     description:
-      "Give your time, skills or support. Register to volunteer with UNIHOPE Foundation.",
+      "Explore volunteer opportunities with UNIHOPE Foundation in Chennai. Give your time, skills or support and register to get involved.",
   },
 };
 

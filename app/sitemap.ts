@@ -1,22 +1,20 @@
 import type { MetadataRoute } from "next";
 
 const siteUrl = "https://unihopefoundation.org";
-const lastModified = new Date("2026-10-21T18:01:54+05:30");
-
-const paths = [
-  "/",
-  "/about",
-  "/our-work",
-  "/donate",
-  "/volunteer",
-  "/contact",
-  "/privacy-policy",
-  "/terms-of-service",
+const entries = [
+  { path: "/", lastModified: "2026-10-22" },
+  { path: "/about", lastModified: "2026-10-22" },
+  { path: "/our-work", lastModified: "2026-10-22" },
+  { path: "/donate", lastModified: "2026-10-22" },
+  { path: "/volunteer", lastModified: "2026-10-22" },
+  { path: "/contact", lastModified: "2026-10-22" },
+  { path: "/privacy-policy", lastModified: "2026-10-21" },
+  { path: "/terms-of-service", lastModified: "2026-10-21" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return paths.map((path) => ({
-    url: `${siteUrl}${path}`,
-    lastModified,
+  return entries.map(({ path, lastModified }) => ({
+    url: path === "/" ? siteUrl : `${siteUrl}${path}`,
+    lastModified: new Date(lastModified),
   }));
 }
