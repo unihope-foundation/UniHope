@@ -127,7 +127,7 @@ export function OurWork({ className = "" }: { className?: string }) {
             Our Work
           </span>
           <h1 className="mt-2 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0A2540]">
-            Our work
+            Community welfare work
           </h1>
           <p className="mt-2 text-xs sm:text-base text-gray-600 max-w-2xl leading-relaxed">
             Creating hope. Empowering lives. Building a better society.

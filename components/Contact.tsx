@@ -63,7 +63,7 @@ export function Contact() {
             </span>
 
             <h1 className="text-[#012A5F] font-outfit text-4xl sm:text-5xl lg:text-[56px] font-semibold leading-tight sm:leading-[1.1] lg:leading-[64px] tracking-[-0.025em] pb-3.5">
-              Let&apos;s connect
+              Contact UNIHOPE Foundation
             </h1>
 
             <p className="text-[#5A5A5A] font-plusJakartaSans text-base sm:text-lg leading-relaxed">

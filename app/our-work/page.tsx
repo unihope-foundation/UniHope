@@ -4,12 +4,12 @@ import { OurWork } from "@/components/OurWork";
 export const metadata: Metadata = {
   title: "Our Work",
   description:
-    "The ten areas where UNIHOPE Foundation sets out to work, from health and education to livelihoods, women and children, and the environment.",
+    "Explore UNIHOPE Foundation's community welfare work in Chennai and its ten focus areas, including health, education, livelihoods, women and children, and the environment.",
   alternates: { canonical: "/our-work" },
   openGraph: {
     title: "Our Work | UNIHOPE Foundation",
     description:
-      "The ten areas where UNIHOPE Foundation sets out to work, from health and education to livelihoods, women and children, and the environment.",
+      "Explore UNIHOPE Foundation's community welfare work in Chennai and its ten focus areas, including health, education, livelihoods, women and children, and the environment.",
     url: "https://unihopefoundation.org/our-work",
     type: "website",
   },
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Our Work | UNIHOPE Foundation",
     description:
-      "The ten areas where UNIHOPE Foundation sets out to work, from health and education to livelihoods, women and children, and the environment.",
+      "Explore UNIHOPE Foundation's community welfare work in Chennai and its ten focus areas, including health, education, livelihoods, women and children, and the environment.",
   },
 };
 

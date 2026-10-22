@@ -34,7 +34,13 @@ export const metadata: Metadata = {
     default: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
     template: "%s | UNIHOPE Foundation",
   },
+  description:
+    "UNIHOPE Foundation is a registered charitable trust in Chennai supporting education, healthcare, livelihoods and community welfare.",
   openGraph: {
+    title: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
+    description:
+      "UNIHOPE Foundation is a registered charitable trust in Chennai supporting education, healthcare, livelihoods and community welfare.",
+    url: "https://unihopefoundation.org",
     siteName: "UNIHOPE Foundation",
     locale: "en_IN",
     type: "website",
