@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Heart, MapPin, Phone, Mail, Clock } from "lucide-react";
 
 export interface FooterLink {
   label: string;
@@ -140,6 +143,12 @@ export function Footer({
   copyrightYear = "2026",
   className = "",
 }: FooterProps) {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith("/hero-preview")) {
+    return null;
+  }
+
   const socialIcons: SocialLink[] = [
     {
       icon: <GlobeIcon className="h-4 w-4" />,

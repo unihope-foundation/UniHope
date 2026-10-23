@@ -41,6 +41,10 @@ export function Navbar({
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  if (pathname?.startsWith("/hero-preview")) {
+    return null;
+  }
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
   };
