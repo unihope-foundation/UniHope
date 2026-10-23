@@ -172,7 +172,7 @@ export function TeamSection() {
         </div>
 
         {/* Responsive team grid */}
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5">
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-14 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 lg:gap-6">
           {TEAM_MEMBERS.map((member) => (
             <article
               key={member.name}
