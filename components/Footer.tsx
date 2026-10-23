@@ -138,7 +138,7 @@ export function Footer({
   legalLinks = DEFAULT_LEGAL_LINKS,
   addressLines = DEFAULT_ADDRESS_LINES,
   phone = "+91 91501 49339",
-  email = "trustee@unihopefoundation.org",
+  email = "unihopefoundation.official@gmail.com",
   registrationText = "Registered Charitable Trust - Reg. No. R/Chennai North Joint I/Book-4/228/2026",
   copyrightYear = "2026",
   className = "",
