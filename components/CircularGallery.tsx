@@ -891,10 +891,10 @@ function GalleryHeader({ progress }: { progress: number }) {
 
 const MY_REELS: GalleryItem[] = [
   
-  {
-    image: '/reel/Blood-Donate.jpeg',
-    text: 'Blood Camp Teams',
-    url: 'https://www.instagram.com/reel/DeXJfBnJNqr/',
+  { image: '/reel/Food-donate2.png',
+    text: 'Food Distribution-2',
+    url: 'https://www.instagram.com/reel/DcEItjrJq1H/',
+   
   },
   {
     image: '/reel/Mosquito-Nets.png',
@@ -912,12 +912,13 @@ const MY_REELS: GalleryItem[] = [
     url: 'https://www.instagram.com/reel/DcGPLlTplnM/',
   },
   {
-    image: '/reel/Food-donate2.png',
-    text: 'Food Distribution-2',
-    url: 'https://www.instagram.com/reel/DcEItjrJq1H/',
+  
+     image: '/reel/Blood-Donate.jpeg',
+    text: 'Blood Camp Teams',
+    url: 'https://www.instagram.com/reel/DeXJfBnJNqr/',
   },
   {
-    image: '/reel/Food-donate1',
+    image: '/reel/Food-donate1.png',
     text: 'Food donate-1',
     url: 'https://www.instagram.com/reel/DcDwlHip8tq/',
   },
