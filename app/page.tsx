@@ -18,6 +18,14 @@ import {
   Heart,
 } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
+import CircularGallery from "@/components/CircularGallery";
+// import HeroOption1 from "@/components/hero/HeroOption1";
+// import HeroOption2 from "@/components/hero/HeroOption2";
+// import HeroOption3 from "@/components/hero/HeroOption3";
+// import HeroOption4 from "@/components/hero/HeroOption4";
+
+
+
 
 const homeDescription =
   "UNIHOPE Foundation is a registered charitable trust in Chennai working on education, healthcare, livelihoods and community welfare. Donate or volunteer.";
@@ -337,6 +345,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
+      
 
       {/* ========================================================= */}
       {/* 6. PRE-FOOTER CTA                                         */}
@@ -373,6 +383,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <CircularGallery />
+      {/* <HeroOption1 />
+      <HeroOption2 />
+      <HeroOption3 />
+      <HeroOption4 /> */}
+
     </div>
   );
 }
