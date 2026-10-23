@@ -14,6 +14,7 @@ import TickerRibbon from "./TickerRibbon";
 
 export function Contact() {
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [formError, setFormError] = useState("");
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -23,15 +24,31 @@ export function Contact() {
     agreedToPrivacy: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formStatus === "submitting") return;
     if (!formData.agreedToPrivacy) {
-      alert("Please agree to the Privacy Policy to send your message.");
+      setFormError("Please agree to the Privacy Policy to send your message.");
       return;
     }
 
+    const form = e.currentTarget;
+    const website = String(new FormData(form).get("website") ?? "");
     setFormStatus("submitting");
-    setTimeout(() => {
+    setFormError("");
+
+    try {
+      const response = await fetch("/api/partnership-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, formType: "contact", website }),
+      });
+      const result: { error?: string } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Unable to send your message. Please try again.");
+      }
+
       setFormStatus("success");
       setFormData({
         fullName: "",
@@ -41,7 +58,14 @@ export function Contact() {
         message: "",
         agreedToPrivacy: false,
       });
-    }, 1200);
+    } catch (error) {
+      setFormStatus("idle");
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : "Unable to send your message. Please try again.",
+      );
+    }
   };
 
   const googleMapsUrl =
@@ -187,6 +211,19 @@ export function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-5 w-full">
+                  <div
+                    aria-hidden="true"
+                    className="absolute -left-[10000px] h-px w-px overflow-hidden"
+                  >
+                    <label htmlFor="contact-website">Leave this field empty</label>
+                    <input
+                      id="contact-website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
                   {/* Full Name */}
                   <div className="flex flex-col items-start gap-1 w-full">
                     <label className="text-[#3D3D3D] font-plusJakartaSans text-sm font-semibold leading-6">
@@ -315,6 +352,11 @@ export function Contact() {
                       </span>
                       <Send className="w-4 h-4 text-white" />
                     </button>
+                    {formError && (
+                      <p role="alert" className="mt-3 text-sm text-red-700">
+                        {formError}
+                      </p>
+                    )}
                   </div>
                 </form>
               )}
