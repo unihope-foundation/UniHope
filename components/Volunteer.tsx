@@ -171,6 +171,7 @@ export function Volunteer() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [partnerFormStatus, setPartnerFormStatus] = useState<"idle" | "submitting" | "success">("idle");
+  const [partnerFormError, setPartnerFormError] = useState("");
   const [volunteerFormStatus, setVolunteerFormStatus] = useState<"idle" | "submitting" | "success">("idle");
 
   const [partnerFormData, setPartnerFormData] = useState({
@@ -196,14 +197,31 @@ export function Volunteer() {
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
-  const handlePartnerSubmit = (e: React.FormEvent) => {
+  const handlePartnerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (partnerFormStatus === "submitting") return;
     if (!partnerFormData.agreedToPrivacy) {
-      alert("Please accept the privacy policy to continue.");
+      setPartnerFormError("Please agree to the Privacy Policy to send your enquiry.");
       return;
     }
+
+    const form = e.currentTarget;
+    const website = String(new FormData(form).get("website") ?? "");
     setPartnerFormStatus("submitting");
-    setTimeout(() => {
+    setPartnerFormError("");
+
+    try {
+      const response = await fetch("/api/partnership-enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...partnerFormData, website }),
+      });
+      const result: { error?: string } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Unable to send your enquiry. Please try again.");
+      }
+
       setPartnerFormStatus("success");
       setPartnerFormData({
         organisationName: "",
@@ -213,7 +231,14 @@ export function Volunteer() {
         message: "",
         agreedToPrivacy: false,
       });
-    }, 1200);
+    } catch (error) {
+      setPartnerFormStatus("idle");
+      setPartnerFormError(
+        error instanceof Error
+          ? error.message
+          : "Unable to send your enquiry. Please try again.",
+      );
+    }
   };
 
   const handleVolunteerSubmit = (e: React.FormEvent) => {
@@ -507,6 +532,19 @@ export function Volunteer() {
                 </div>
               ) : (
                 <form onSubmit={handlePartnerSubmit} className="flex flex-col gap-5 w-full">
+                  <div
+                    aria-hidden="true"
+                    className="absolute -left-[10000px] h-px w-px overflow-hidden"
+                  >
+                    <label htmlFor="partner-website">Leave this field empty</label>
+                    <input
+                      id="partner-website"
+                      name="website"
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
                   {/* Organisation Name */}
                   <div className="flex flex-col items-start gap-1.5 w-full">
                     <label className="text-[#43474F] font-plusJakartaSans text-sm font-semibold leading-5">
@@ -647,6 +685,11 @@ export function Volunteer() {
                           : "Send enquiry"}
                       </span>
                     </button>
+                    {partnerFormError && (
+                      <p role="alert" className="mt-3 text-sm text-red-700">
+                        {partnerFormError}
+                      </p>
+                    )}
                   </div>
                 </form>
               )}
