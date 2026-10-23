@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Heart, MapPin, Phone, Mail, Clock } from "lucide-react";
@@ -26,7 +27,6 @@ export interface FooterProps {
   addressLines?: string[];
   phone?: string;
   email?: string;
-  workingHours?: string;
   registrationText?: string;
   copyrightYear?: number | string;
   className?: string;
@@ -36,12 +36,11 @@ const DEFAULT_QUICK_LINKS: FooterLink[] = [
   { label: "Home", href: "/" },
   { label: "About the Trust", href: "/about" },
   { label: "Our Work & Focus Areas", href: "/our-work" },
-  { label: "Volunteer Application ↗", href: "/volunteer" },
+  { label: "Volunteer Application", href: "/volunteer" },
   { label: "Statutory Donations", href: "/donate" },
 ];
 
 const DEFAULT_LEGAL_LINKS: FooterLink[] = [
-  { label: "Statutory Disclosures", href: "/disclosures" },
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms of Service", href: "/terms-of-service" },
 ];
@@ -104,21 +103,28 @@ function YoutubeIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-function HashIcon({ className = "w-4 h-4" }: { className?: string }) {
+function XIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg
       className={className}
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
+      aria-hidden="true"
     >
-      <line x1="4" x2="20" y1="9" y2="9" />
-      <line x1="4" x2="20" y1="15" y2="15" />
-      <line x1="10" x2="8" y1="3" y2="21" />
-      <line x1="16" x2="14" y1="3" y2="21" />
+      <path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.41l-5.8-7.58-6.63 7.58H.48l8.6-9.83L0 1.15h7.6l5.24 6.93 6.06-6.93Zm-1.29 19.49h2.04L6.49 3.24H4.3l13.31 17.4Z" />
+    </svg>
+  );
+}
+
+function FacebookIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6.02 4.39 11.02 10.13 11.93v-8.44H7.08v-3.49h3.05V9.41c0-3.03 1.79-4.7 4.53-4.7 1.31 0 2.69.24 2.69.24v2.98h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.09 24 12.07Z" />
     </svg>
   );
 }
@@ -131,9 +137,8 @@ export function Footer({
   quickLinks = DEFAULT_QUICK_LINKS,
   legalLinks = DEFAULT_LEGAL_LINKS,
   addressLines = DEFAULT_ADDRESS_LINES,
-  phone = "+91 9143380 0000",
+  phone = "+91 91501 49339",
   email = "trustee@unihopefoundation.org",
-  workingHours = "Monday - Saturday: 09:30 AM - 05:30 PM IST",
   registrationText = "Registered Charitable Trust - Reg. No. R/Chennai North Joint I/Book-4/228/2026",
   copyrightYear = "2026",
   className = "",
@@ -147,23 +152,28 @@ export function Footer({
   const socialIcons: SocialLink[] = [
     {
       icon: <GlobeIcon className="h-4 w-4" />,
-      href: "https://unihope.org",
+      href: "https://unihopefoundation.org",
       label: "Website",
     },
     {
       icon: <InstagramIcon className="h-4 w-4" />,
-      href: "https://instagram.com",
+      href: "https://www.instagram.com/unihopefoundation.official",
       label: "Instagram",
     },
     {
       icon: <YoutubeIcon className="h-4 w-4" />,
-      href: "https://youtube.com",
+      href: "https://www.youtube.com/@UNIHOPEFoundation",
       label: "YouTube",
     },
     {
-      icon: <HashIcon className="h-4 w-4" />,
-      href: "#",
-      label: "Social",
+      icon: <XIcon className="h-4 w-4" />,
+      href: "https://x.com/unihopefdn",
+      label: "X",
+    },
+    {
+      icon: <FacebookIcon className="h-4 w-4" />,
+      href: "https://www.facebook.com/share/19L4K3tHiY/?mibextid=wwXIfr",
+      label: "Facebook",
     },
   ];
 
@@ -176,9 +186,13 @@ export function Footer({
           <div className="flex flex-col space-y-6 lg:col-span-4">
             {/* Brand Logo */}
             <Link href="/" className="group flex items-center gap-3 select-none">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#0A2540] shadow-sm transition-transform duration-200 group-hover:scale-105">
-                <Heart className="h-5 w-5 fill-[#0A2540] text-[#0A2540]" />
-              </div>
+              <Image
+                src="/UNIHOPE_LOGO.svg"
+                alt="UNIHOPE Foundation"
+                width={769}
+                height={769}
+                className="h-11 w-11 shrink-0 object-contain transition-transform duration-200 group-hover:scale-105 sm:h-14 sm:w-14"
+              />
               <div className="flex flex-col leading-none">
                 <span className="text-xl font-extrabold tracking-tight text-white">
                   {brandName}
@@ -230,8 +244,27 @@ export function Footer({
             </ul>
           </div>
 
-          {/* Column 3: Registered Office & Contact */}
-          <div className="lg:col-span-5">
+          {/* Column 3: Legal */}
+          <div className="lg:col-span-2">
+            <h3 className="text-xs font-bold tracking-widest uppercase text-white">
+              Legal
+            </h3>
+            <ul className="mt-6 space-y-3">
+              {legalLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-blue-100/75 transition-colors duration-200 hover:text-white hover:underline underline-offset-4"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Registered Office & Contact */}
+          <div className="lg:col-span-3">
             <h3 className="text-xs font-bold tracking-widest uppercase text-white">
               {officeTitle}
             </h3>
@@ -268,33 +301,7 @@ export function Footer({
                   </a>
                 </div>
               )}
-
-              {workingHours && (
-                <div className="flex items-center gap-3">
-                  <Clock className="h-4 w-4 text-[#4ADE80] shrink-0" />
-                  <span>{workingHours}</span>
-                </div>
-              )}
             </div>
-          </div>
-
-          {/* Column 4: Legal */}
-          <div className="lg:col-span-2">
-            <h3 className="text-xs font-bold tracking-widest uppercase text-white">
-              Legal
-            </h3>
-            <ul className="mt-6 space-y-3">
-              {legalLinks.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-blue-100/75 transition-colors duration-200 hover:text-white hover:underline underline-offset-4"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 

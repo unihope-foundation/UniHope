@@ -5,7 +5,6 @@ import communityGathering from "@/assets/community-gathering.svg";
 import {
   CheckCircle2,
   ArrowUpRight,
-  User,
   ShieldCheck,
   Heart,
   Users,
@@ -22,13 +21,8 @@ import {
 import { TickerRibbon } from "@/components/TickerRibbon";
 import { Reveal } from "@/components/motion/Reveal";
 import { RevealGroup } from "@/components/motion/RevealGroup";
+import { TeamSection } from "@/components/TeamSection";
 import { delay } from "@/lib/motion";
-
-export interface TeamMember {
-  name: string;
-  role: string;
-  designation?: string;
-}
 
 export interface AboutUsProps {
   className?: string;
@@ -95,17 +89,6 @@ const DEFAULT_VALUES = [
     description: "Creating measurable, long-term self-sufficiency rather than temporary relief.",
     icon: <Sparkles className="h-5 w-5 text-[#2E7D32]" />,
   },
-];
-
-const DEFAULT_TEAM: TeamMember[] = [
-  { name: "Trustee Member", role: "Founder & Managing Trustee", designation: "Trustee" },
-  { name: "Trustee Member", role: "Treasurer & Finance", designation: "Trustee" },
-  { name: "Trustee Member", role: "Healthcare Operations", designation: "Trustee" },
-  { name: "Trustee Member", role: "Education Initiatives", designation: "Trustee" },
-  { name: "Trustee Member", role: "Community Outreach", designation: "Trustee" },
-  { name: "Trustee Member", role: "Youth & Skill Development", designation: "Trustee" },
-  { name: "Trustee Member", role: "Legal & Compliance", designation: "Trustee" },
-  { name: "Trustee Member", role: "Volunteer Coordination", designation: "Trustee" },
 ];
 
 export function AboutUs({ className = "" }: AboutUsProps) {
@@ -341,7 +324,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
             </div>
             <div className="mt-4 sm:mt-6 pl-4 sm:pl-6">
               <h4 className="font-extrabold text-[#0A2540] text-sm sm:text-base">
-                Trustee Member
+                Balasubramanian K
               </h4>
               <p className="text-xs text-gray-500">
                 Founder & Managing Trustee, UniHope Foundation
@@ -349,55 +332,25 @@ export function AboutUs({ className = "" }: AboutUsProps) {
             </div>
           </Reveal>
 
-          {/* Profile Photo Placeholder */}
-          <Reveal variant="fade" className="flex h-44 w-full sm:w-48 sm:h-48 md:w-48 md:h-48 shrink-0 items-center justify-center rounded-2xl sm:rounded-3xl bg-slate-100 border border-gray-200 text-gray-400 shadow-inner">
-            <User className="h-14 w-14 sm:h-16 sm:w-16" />
+          <Reveal
+            variant="fade"
+            className="relative h-44 w-full shrink-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-inner sm:h-48 sm:w-48 sm:rounded-3xl sm:bg-slate-100 md:h-56 md:w-56"
+          >
+            <Image
+              src="/Teams/Balasubramanian%20Kanthasamy.svg"
+              alt="Balasubramanian K, Founder and Managing Trustee of UNIHOPE Foundation"
+              fill
+              sizes="(max-width: 640px) 100vw, 224px"
+              className="object-contain"
+            />
           </Reveal>
         </div>
       </section>
 
+  {/* ========================================================= */}
+      {/* 8. Teams Section               */}
       {/* ========================================================= */}
-      {/* 8. THE PEOPLE BEHIND UNIHOPE (Team Grid)                  */}
-      {/* ========================================================= */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:py-16 sm:px-6 lg:px-8">
-        <div className="text-center sm:text-left">
-          <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
-            Leadership
-          </span>
-          <h2 className="mt-2 text-2xl sm:text-4xl font-extrabold tracking-tight text-[#0A2540]">
-            The people behind UNIHOPE
-          </h2>
-          <p className="mt-1.5 sm:mt-2 text-xs sm:text-base text-gray-600 max-w-2xl">
-            A dedicated team of professionals, social workers, and community leaders.
-          </p>
-        </div>
-
-        {/* 8 Cards Grid (2 columns on mobile!) */}
-        <div className="mt-8 sm:mt-12 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
-          {DEFAULT_TEAM.map((member, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col rounded-2xl border border-gray-100 bg-white p-3.5 sm:p-5 shadow-xs transition hover:shadow-md"
-            >
-              {/* Photo Placeholder */}
-              <div className="flex aspect-[3/4] w-full items-center justify-center rounded-xl bg-slate-100 text-gray-400 mb-3 sm:mb-4 shadow-inner">
-                <User className="h-8 w-8 sm:h-12 sm:w-12" />
-              </div>
-              <h3 className="text-xs sm:text-base font-bold text-[#0A2540] truncate">
-                {member.name}
-              </h3>
-              <p className="text-[10px] sm:text-xs text-[#2E7D32] font-semibold mt-0.5 leading-tight">
-                {member.role}
-              </p>
-              {member.designation && (
-                <span className="text-[9px] sm:text-[10px] text-gray-400 mt-0.5">
-                  {member.designation}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+      <TeamSection />
 
       {/* ========================================================= */}
       {/* 9. EVERYONE CAN CONTRIBUTE (Pre-Footer CTA)               */}

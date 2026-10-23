@@ -50,26 +50,3 @@ body {
 .animate-ticker:hover {
   animation-play-state: paused;
 }
-
-@keyframes ticker-right {
-  from {
-    transform: translateX(-50%);
-  }
-
-  to {
-    transform: translateX(0);
-  }
-}
-
-.ticker-ribbon {
-  container-type: inline-size;
-}
-
-.ticker-ribbon-group {
-  min-width: 100cqw;
-}
-
-.ticker-ribbon-track {
-  width: max-content;
-  animation: ticker-right 24s linear infinite;
-}

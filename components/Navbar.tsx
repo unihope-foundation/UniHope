@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Heart } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export interface NavItem {
   label: string;
@@ -24,7 +25,7 @@ const DEFAULT_NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Our Work", href: "/our-work" },
-  { label: "Volunteer ↗", href: "/volunteer" },
+  { label: "Volunteer ", href: "/volunteer" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -61,19 +62,22 @@ export function Navbar({
         <Link
           href="/"
           onClick={closeMobileMenu}
-          className="group flex items-center gap-3 select-none"
+          className="group flex min-w-0 items-center gap-2.5 select-none sm:gap-3"
         >
-          {/* Logo Icon Badge */}
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0A2540] text-white shadow-sm transition-transform duration-200 group-hover:scale-105">
-            <Heart className="h-5 w-5 fill-white text-white" />
-          </div>
+          <Image
+            src="/UNIHOPE_LOGO.svg"
+            alt="UNIHOPE Foundation"
+            width={769}
+            height={769}
+            priority
+            className="h-11 w-11 shrink-0 object-contain transition-transform duration-200 group-hover:scale-105 sm:h-14 sm:w-14"
+          />
 
-          {/* Logo Text */}
-          <div className="flex flex-col leading-none">
-            <span className="text-xl font-extrabold tracking-tight text-[#0A2540]">
+          <div className="flex min-w-0 flex-col leading-none">
+            <span className="truncate text-lg font-extrabold tracking-tight text-[#0A2540] sm:text-xl">
               {brandName}
             </span>
-            <span className="mt-1 text-[11px] font-bold tracking-[0.18em] text-[#2E7D32]">
+            <span className="mt-1 text-[10px] font-bold tracking-[0.14em] text-[#2E7D32] sm:text-[11px] sm:tracking-[0.18em]">
               {subBrandName}
             </span>
           </div>
