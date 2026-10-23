@@ -12,6 +12,11 @@
   --font-mono: var(--font-geist-mono);
   --font-outfit: var(--font-outfit), sans-serif;
   --font-plusJakartaSans: var(--font-plus-jakarta-sans), sans-serif;
+  --font-dMSans: var(--font-dm-sans), 'DM Sans', sans-serif;
+  --font-inter: var(--font-inter), 'Inter', sans-serif;
+  --font-onest: var(--font-onest), 'Onest', sans-serif;
+  --font-sourceSerifPro: var(--font-source-serif), 'Source Serif 4', serif;
+  --font-openSans: var(--font-open-sans), 'Open Sans', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
