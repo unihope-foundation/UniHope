@@ -48,7 +48,7 @@ const TEAM_MEMBERS: TeamMember[] = [
   {
     name: "Prabu Kumaran",
     role: "Education & Youth Development Coordinator",
-    image: "/Teams/prabu-Kumaran.png",
+    image: "/Teams/Prabu-Kumaran.png",
   },
   {
     name: "Vasanthakumar S",
