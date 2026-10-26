@@ -18,7 +18,7 @@ import {
   Heart,
 } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
-import CircularGallery from "@/components/CircularGallery";
+// import CircularGallery from "@/components/CircularGallery";
 // import HeroOption1 from "@/components/hero/HeroOption1";
 // import HeroOption2 from "@/components/hero/HeroOption2";
 // import HeroOption3 from "@/components/hero/HeroOption3";
@@ -383,7 +383,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <CircularGallery />
+      {/* <CircularGallery /> */}
       {/* <HeroOption1 />
       <HeroOption2 />
       <HeroOption3 />
