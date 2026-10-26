@@ -191,7 +191,7 @@ export function Footer({
                 alt="UNIHOPE Foundation"
                 width={769}
                 height={769}
-                className="h-11 w-11 shrink-0 object-contain transition-transform duration-200 group-hover:scale-105 sm:h-14 sm:w-14"
+                className="h-16 w-16 shrink-0 rounded-full bg-white object-contain p-1 shadow-sm ring-1 ring-white/20 transition-transform duration-200 group-hover:scale-105 sm:h-[4.5rem] sm:w-[4.5rem]"
               />
               <div className="flex flex-col leading-none">
                 <span className="text-xl font-extrabold tracking-tight text-white">
