@@ -386,7 +386,6 @@ export default function Home() {
         </div>
       </section>
       <CircularGallery />
-
       {/* <HeroOption1 />
       <HeroOption2 />
       <HeroOption3 />
