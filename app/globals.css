@@ -26,10 +26,36 @@
   }
 }
 
+/* Fix horizontal overflow on mobile screens */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-plus-jakarta-sans), var(--font-geist-sans), sans-serif;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Keep media within the available viewport */
+img,
+video,
+iframe {
+  max-width: 100%;
+}
+
+/* Prevent flex children from forcing extra width */
+body > main,
+body > header,
+body > footer,
+main {
+  min-width: 0;
+  max-width: 100%;
 }
 
 @keyframes ticker {

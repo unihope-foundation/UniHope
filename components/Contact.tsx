@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import TickerRibbon from "./TickerRibbon";
 
+
 export function Contact() {
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [formError, setFormError] = useState("");
@@ -76,6 +77,8 @@ export function Contact() {
       {/* ========================================================= */}
       {/* 1. HERO SECTION                                           */}
       {/* ========================================================= */}
+     
+      
       <section className="relative w-full pt-10 sm:pt-16 pb-12 sm:pb-16 px-4 sm:px-8 lg:px-16 overflow-hidden">
         {/* Subtle grid backdrop pattern */}
         <div className="absolute inset-0 opacity-[3%] pointer-events-none bg-[radial-gradient(#012A5F_1px,transparent_1px)] [background-size:16px_16px]" />
@@ -102,6 +105,7 @@ export function Contact() {
       {/* 2. RIBBON MARQUEE (WARM ORANGE)                           */}
       {/* ========================================================= */}
       
+
 <TickerRibbon />
       {/* ========================================================= */}
       {/* 3. MAIN CONTACT GRID                                      */}
@@ -364,6 +368,7 @@ export function Contact() {
           </div>
         </div>
       </section>
+      
 
       {/* ========================================================= */}
       {/* 4. PRE-FOOTER BANNER ("Want to help in another way?")      */}

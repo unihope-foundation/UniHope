@@ -18,11 +18,12 @@ import {
   Heart,
 } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
-// import CircularGallery from "@/components/CircularGallery";
+import CircularGallery from "@/components/CircularGallery";
 // import HeroOption1 from "@/components/hero/HeroOption1";
 // import HeroOption2 from "@/components/hero/HeroOption2";
 // import HeroOption3 from "@/components/hero/HeroOption3";
 // import HeroOption4 from "@/components/hero/HeroOption4";
+// import Hero from "@/components/hero/Hero5";
 
 
 
@@ -108,6 +109,7 @@ export default function Home() {
       {/* ========================================================= */}
       {/* 1. HERO SECTION                                           */}
       {/* ========================================================= */}
+      {/* <Hero />  */}
       <section className="mx-auto max-w-7xl px-4 pt-6 pb-12 sm:px-6 sm:pt-8 sm:pb-16 lg:px-8">
         {/* Mobile View Structure (< lg) */}
         <div className="flex flex-col gap-6 lg:hidden">
@@ -220,13 +222,13 @@ export default function Home() {
         </div>
       </section>
 
-     {/* ========================================================= */}
-           {/* 2. TICKER RIBBON                                          */}
-           {/* ========================================================= */}
-         
-           <section>
-           <TickerRibbon />
-           </section>
+      {/* ========================================================= */}
+      {/* 2. TICKER RIBBON                                          */}
+      {/* ========================================================= */}
+
+      <section>
+        <TickerRibbon />
+      </section>
 
       {/* ========================================================= */}
       {/* 3. KEY STATS SECTION                                      */}
@@ -345,8 +347,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
-      
+
+
 
       {/* ========================================================= */}
       {/* 6. PRE-FOOTER CTA                                         */}
@@ -383,7 +385,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* <CircularGallery /> */}
+      <CircularGallery />
       {/* <HeroOption1 />
       <HeroOption2 />
       <HeroOption3 />

@@ -70,7 +70,7 @@ export function Navbar({
             width={769}
             height={769}
             priority
-            className="h-11 w-11 shrink-0 object-contain transition-transform duration-200 group-hover:scale-105 sm:h-14 sm:w-14"
+            className="h-14 w-14 shrink-0 object-contain transition-transform duration-200 group-hover:scale-105 sm:h-16 sm:w-16"
           />
 
           <div className="flex min-w-0 flex-col leading-none">
