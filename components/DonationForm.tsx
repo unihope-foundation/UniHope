@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useId, useRef, useState, type ChangeEvent, type FormEvent } from "react";
-import { Check, ChevronDown, ExternalLink, Lock, QrCode } from "lucide-react";
+import { Check, ChevronDown, ExternalLink, Lock } from "lucide-react";
 import { HELPLINE, REG_NO, VOLUNTEER_FORM_URL } from "@/content/donate";
 import {
   AMOUNT_PRESETS,
@@ -10,18 +10,11 @@ import {
   formatINR,
   submitDonation,
   type DonationResult,
-  type PaymentMethod,
   type Purpose,
 } from "@/lib/donations";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^\+?[0-9\s-]{10,15}$/;
-
-const METHODS: { id: PaymentMethod; label: string }[] = [
-  { id: "upi", label: "UPI / QR" },
-  { id: "bank", label: "Bank transfer" },
-  { id: "online", label: "Online payment" },
-];
 
 type FieldKey = "amount" | "fullName" | "email" | "phone" | "consent";
 type FieldErrors = Partial<Record<FieldKey, string>>;
@@ -46,10 +39,10 @@ export function DonationForm() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [anonymous, setAnonymous] = useState(false);
-  const [method, setMethod] = useState<PaymentMethod>("upi");
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<Status>("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [result, setResult] = useState<DonationResult | null>(null);
 
   const amount = Number(amountText);
@@ -91,6 +84,7 @@ export function DonationForm() {
     }
 
     setStatus("submitting");
+    setErrorMessage(null);
     try {
       const response = await submitDonation({
         amount,
@@ -99,12 +93,16 @@ export function DonationForm() {
         email: email.trim(),
         phone: phone.trim(),
         anonymous,
-        paymentMethod: method,
       });
       setResult(response);
       setStatus("success");
-    } catch {
+    } catch (err: unknown) {
       setStatus("error");
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Your payment did not go through. Please try again.";
+      setErrorMessage(msg);
     }
   }
 
@@ -360,70 +358,6 @@ export function DonationForm() {
         </label>
       </div>
 
-      {/* Payment method */}
-      <div className="flex flex-col gap-3 pt-2">
-        <p id={id("method-label")} className={labelClass}>
-          Payment Method
-        </p>
-        <div
-          role="radiogroup"
-          aria-labelledby={id("method-label")}
-          className="grid grid-cols-3 gap-1 rounded-full bg-[#EEEDEC] p-1"
-        >
-          {METHODS.map((item) => {
-            const selected = method === item.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                role="radio"
-                aria-checked={selected}
-                onClick={() => setMethod(item.id)}
-                className={`min-h-10 rounded-full px-1 py-2 text-xs font-semibold leading-tight transition-colors duration-150 motion-reduce:transition-none sm:text-[13px] ${focusRing} ${
-                  selected ? "bg-[#012A5F] text-white" : "text-[#3D3D3D] hover:bg-white/70"
-                }`}
-              >
-                {item.label}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="rounded-xl border border-[#D6D6D6] bg-white p-5">
-          {method === "upi" && (
-            <div className="flex flex-col items-center gap-3 text-center">
-              <div className="grid size-40 place-items-center rounded-[10px] border border-dashed border-[#8A8A8A] bg-[#F7F6F4]">
-                <div className="flex flex-col items-center gap-2 text-[11px] font-semibold text-[#5A5A5A]">
-                  <QrCode aria-hidden="true" className="size-10 text-[#012A5F]" />
-                  [QR code to be added]
-                </div>
-              </div>
-              <p className="text-[15px] font-semibold leading-[22.5px] text-[#012A5F]">
-                UPI ID: [to be added]
-              </p>
-              <p className="text-[13px] leading-[19.5px] text-[#5A5A5A]">
-                Scan using any UPI app (GPay, PhonePe, Paytm, BHIM)
-              </p>
-            </div>
-          )}
-          {method === "bank" && (
-            <dl className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
-              {["Account name", "Account number", "IFSC code", "Bank and branch"].map((term) => (
-                <div key={term}>
-                  <dt className="text-[#5A5A5A]">{term}</dt>
-                  <dd className="font-semibold text-[#012A5F]">[to be added]</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-          {method === "online" && (
-            <p className="text-[15px] leading-6 text-[#3D3D3D]">
-              You will be taken to a secure payment page to complete your contribution.
-            </p>
-          )}
-        </div>
-      </div>
-
       {/* Consent */}
       <div>
         <label className="flex cursor-pointer items-start gap-3 text-[13px] leading-5 text-[#012A5F]">
@@ -456,8 +390,9 @@ export function DonationForm() {
           role="alert"
           className="rounded-xl border border-[#C62828] bg-white p-4 text-sm leading-6 text-[#C62828]"
         >
-          Your payment did not go through and you have not been charged. Please try again, or
-          contact us on {HELPLINE}.
+          {errorMessage
+            ? `${errorMessage} Please try again, or contact us on ${HELPLINE}.`
+            : `Your payment did not go through and you have not been charged. Please try again, or contact us on ${HELPLINE}.`}
         </p>
       )}
 
