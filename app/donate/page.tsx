@@ -1,9 +1,12 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { BadgeCheck, CheckCircle2 } from "lucide-react";
 import { DonateFaq } from "@/components/DonateFaq";
 import { DonationForm } from "@/components/DonationForm";
 import { COMMITMENTS, FAQ, HELPLINE, HERO_IMAGE, REG_NO, TRUST_CARDS } from "@/content/donate";
+
+export const instant = false;
 
 export const metadata: Metadata = {
   title: "Donate in Chennai",
@@ -60,7 +63,13 @@ export default function DonatePage() {
 
           {/* Donation form: second on mobile, right column on desktop */}
           <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start">
-            <DonationForm />
+            <Suspense
+              fallback={
+                <div className="min-h-[500px] rounded-[20px] border border-[#D6D6D6] bg-white p-5 animate-pulse sm:p-8" />
+              }
+            >
+              <DonationForm />
+            </Suspense>
           </div>
 
           {/* Commitment and registration line */}

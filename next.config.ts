@@ -1,9 +1,11 @@
-
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    devValidationWorker: false,
+  },
 
   async redirects() {
     return [
