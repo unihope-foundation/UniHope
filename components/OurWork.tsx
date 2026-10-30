@@ -6,7 +6,7 @@ import Link from "next/link";
 import ourWorkBanner from "@/assets/our-work-banner.svg";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
-import OurWorkHero from "./hero/OurworkHero";
+// import OurWorkHero from "./hero/OurworkHero";
 export interface PillarItem {
   id: string;
   pillarNumber: string;
