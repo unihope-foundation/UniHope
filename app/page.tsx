@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
 import CircularGallery from "@/components/CircularGallery";
+import HeroOption2 from "@/components/hero/HeroOption2";
 // import HeroOption1 from "@/components/hero/HeroOption1";
 // import HeroOption2 from "@/components/hero/HeroOption2";
 // import HeroOption3 from "@/components/hero/HeroOption3";
@@ -110,6 +111,8 @@ export default function Home() {
       {/* 1. HERO SECTION                                           */}
       {/* ========================================================= */}
       {/* <Hero />  */}
+
+
       <section className="mx-auto max-w-7xl px-4 pt-6 pb-12 sm:px-6 sm:pt-8 sm:pb-16 lg:px-8">
         {/* Mobile View Structure (< lg) */}
         <div className="flex flex-col gap-6 lg:hidden">

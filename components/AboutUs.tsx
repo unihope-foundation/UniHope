@@ -253,7 +253,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
 
             <div className="pt-2">
               <Link
-                href="/governance"
+                href=""
                 className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-gray-300 bg-white px-7 py-3 sm:py-2.5 text-sm font-semibold text-gray-800 shadow-xs transition hover:border-gray-900 active:scale-[0.98]"
               >
                 Read our charter
@@ -347,7 +347,7 @@ export function AboutUs({ className = "" }: AboutUsProps) {
         </div>
       </section>
 
-  {/* ========================================================= */}
+      {/* ========================================================= */}
       {/* 8. Teams Section               */}
       {/* ========================================================= */}
       <TeamSection />
