@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
 import CircularGallery from "@/components/CircularGallery";
-import HeroOption2 from "@/components/hero/HeroOption2";
 // import HeroOption1 from "@/components/hero/HeroOption1";
 // import HeroOption2 from "@/components/hero/HeroOption2";
 // import HeroOption3 from "@/components/hero/HeroOption3";
