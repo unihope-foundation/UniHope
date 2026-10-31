@@ -1,85 +1,34 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 import Razorpay from "razorpay";
-import { REG_NO } from "@/content/donate";
-
-interface VerifyPaymentRequest {
-  razorpay_order_id: string;
-  razorpay_payment_id: string;
-  razorpay_signature: string;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-// Keep track of confirmed payment IDs to prevent duplicate processing
-const confirmedPayments = new Map<string, { confirmedAt: number; orderId: string }>();
-
-// Clean up entries older than 24 hours to keep memory tidy
-function cleanupOldPayments() {
-  const cutoff = Date.now() - 24 * 60 * 60 * 1000;
-  for (const [id, entry] of confirmedPayments.entries()) {
-    if (entry.confirmedAt < cutoff) {
-      confirmedPayments.delete(id);
-    }
-  }
-}
-
-async function sendReceiptEmail(options: {
-  recipientEmail: string;
-  donorName: string;
-  amountInRupees: number;
-  purpose: string;
-  referenceId: string;
-}) {
-  const apiKey = process.env.RESEND_API_KEY;
-  const sender = process.env.RESEND_FROM_EMAIL;
-  if (!apiKey || !sender) {
-    return;
-  }
-
-  const { recipientEmail, donorName, amountInRupees, purpose, referenceId } = options;
-  const dateStr = new Intl.DateTimeFormat("en-IN", { dateStyle: "long" }).format(new Date());
-
-  const emailText = [
-    `Dear ${donorName},`,
-    "",
-    "Thank you for your generous contribution to UNIHOPE Foundation.",
-    "",
-    "Donation Acknowledgement Details:",
-    `Contribution: ₹${amountInRupees.toLocaleString("en-IN")}`,
-    `Purpose: ${purpose}`,
-    `Transaction Reference ID: ${referenceId}`,
-    `Date: ${dateStr}`,
-    `Trust Registration No.: ${REG_NO}`,
-    "",
-    "Your support helps UNIHOPE Foundation provide healthcare, education, hunger relief, and community welfare in Chennai.",
-    "",
-    "Warm regards,",
-    "UNIHOPE Foundation Team",
-    "https://unihopefoundation.org",
-  ].join("\n");
-
-  try {
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: sender,
-        to: [recipientEmail],
-        subject: `Donation Acknowledgement — UNIHOPE Foundation (${referenceId})`,
-        text: emailText,
-      }),
-    });
-  } catch (error) {
-    console.error("Non-fatal: failed to send donor receipt email:", error);
-  }
-}
+import { validateVerifyPaymentInput } from "@/lib/validations/donation";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  // 1. Rate limiting
+  const rateLimit = await checkRateLimit(
+    request,
+    "verify-payment",
+    Number(process.env.RATE_LIMIT_VERIFY_PER_MIN || 20),
+    60,
+  );
+
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { error: "Too many verification requests. Please wait a moment." },
+      { status: 429 },
+    );
+  }
+
+  // 2. Validate Content-Type
+  const contentType = request.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) {
+    return Response.json(
+      { error: "Content-Type must be application/json." },
+      { status: 415 },
+    );
+  }
+
+  // 3. Parse JSON safely
   let body: unknown;
   try {
     body = await request.json();
@@ -90,70 +39,50 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!isRecord(body)) {
-    return Response.json(
-      { error: "Payment verification payload must be an object." },
-      { status: 400 },
-    );
+  // 4. Strict input schema validation
+  const validation = validateVerifyPaymentInput(body);
+  if (!validation.valid) {
+    return Response.json({ error: validation.error }, { status: 400 });
   }
 
-  const orderId = typeof body.razorpay_order_id === "string" ? body.razorpay_order_id.trim() : "";
-  const paymentId = typeof body.razorpay_payment_id === "string" ? body.razorpay_payment_id.trim() : "";
-  const signature = typeof body.razorpay_signature === "string" ? body.razorpay_signature.trim() : "";
+  const { razorpay_order_id: orderId, razorpay_payment_id: paymentId, razorpay_signature: signature } =
+    validation.data;
 
-  if (!orderId || !paymentId || !signature) {
-    return Response.json(
-      { error: "Missing required payment verification parameters (orderId, paymentId, or signature)." },
-      { status: 400 },
-    );
-  }
-
+  // 5. Check Razorpay credentials
   const keyId = process.env.RAZORPAY_KEY_ID;
   const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
   if (!keyId || !keySecret) {
-    console.error("Razorpay API credentials not configured.");
+    console.error("Razorpay API credentials are not configured.");
     return Response.json(
-      { error: "Payment verification service is unavailable." },
+      { error: "Payment verification service is temporarily unavailable." },
       { status: 500 },
     );
   }
 
-  // 1. Verify HMAC SHA-256 signature
+  // 6. Cryptographic HMAC-SHA256 signature verification
   const payloadToSign = `${orderId}|${paymentId}`;
   const generatedSignature = crypto
     .createHmac("sha256", keySecret)
     .update(payloadToSign)
     .digest("hex");
 
-  const generatedBuffer = Buffer.from(generatedSignature, "utf-8");
-  const receivedBuffer = Buffer.from(signature, "utf-8");
+  const generatedBuffer = Buffer.from(generatedSignature, "hex");
+  const receivedBuffer = Buffer.from(signature, "hex");
 
   const isSignatureValid =
     generatedBuffer.length === receivedBuffer.length &&
     crypto.timingSafeEqual(generatedBuffer, receivedBuffer);
 
   if (!isSignatureValid) {
-    console.warn("Invalid payment signature received for order:", orderId);
+    console.warn("Invalid Razorpay payment signature for order:", orderId);
     return Response.json(
       { error: "Payment verification failed: signature mismatch." },
       { status: 400 },
     );
   }
 
-  // 2. Prevent duplicate processing
-  cleanupOldPayments();
-  const existingConfirmation = confirmedPayments.get(paymentId);
-  if (existingConfirmation) {
-    return Response.json({
-      success: true,
-      referenceId: paymentId,
-      orderId,
-      alreadyConfirmed: true,
-    });
-  }
-
-  // 3. Fetch payment from Razorpay API to verify amount, currency, order_id, and status
+  // 7. Verify payment against Razorpay REST API
   try {
     const razorpay = new Razorpay({
       key_id: keyId,
@@ -162,11 +91,11 @@ export async function POST(request: Request) {
 
     const payment = await razorpay.payments.fetch(paymentId);
 
-    // Verify payment belongs to expected order
+    // Verify payment belongs to the expected order
     if (payment.order_id !== orderId) {
-      console.warn("Payment order mismatch:", {
-        paymentOrderId: payment.order_id,
-        expectedOrderId: orderId,
+      console.warn("Razorpay payment order mismatch:", {
+        expectedOrder: orderId,
+        receivedOrder: payment.order_id,
       });
       return Response.json(
         { error: "Payment verification failed: payment does not match the order." },
@@ -174,7 +103,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Verify payment currency
+    // Verify currency
     if (payment.currency !== "INR") {
       return Response.json(
         { error: "Payment verification failed: invalid currency." },
@@ -185,60 +114,50 @@ export async function POST(request: Request) {
     // Verify payment status
     const validStatuses = ["captured", "authorized"];
     if (!validStatuses.includes(payment.status)) {
-      console.warn("Payment status is invalid:", payment.status);
       return Response.json(
         { error: `Payment not completed. Current status: ${payment.status}.` },
         { status: 400 },
       );
     }
 
-    // Verify amount is positive
+    // Verify amount
     const amountInPaise = Number(payment.amount);
     if (!Number.isFinite(amountInPaise) || amountInPaise <= 0) {
       return Response.json(
-        { error: "Payment verification failed: invalid payment amount." },
+        { error: "Payment verification failed: invalid amount." },
         { status: 400 },
       );
     }
 
-    // Record payment confirmation
-    confirmedPayments.set(paymentId, {
-      confirmedAt: Date.now(),
-      orderId,
-    });
+    const amountInRupees = amountInPaise / 100;
 
-    // 4. Send email receipt if email configured and available in notes or payment
-    const notes = payment.notes as Record<string, string> | undefined;
-    const donorEmail = (notes?.donorEmail || payment.email || "").trim();
-    const donorName = (notes?.donorName || "Supporter").trim();
-    const purpose = (notes?.purpose || "General Fund").trim();
-    const amountInRupees = Math.round(amountInPaise / 100);
-
-    if (donorEmail) {
-      // Fire-and-forget email delivery
-      void sendReceiptEmail({
-        recipientEmail: donorEmail,
-        donorName,
-        amountInRupees,
-        purpose,
-        referenceId: paymentId,
-      });
-    }
-
+    // 8. Return verified payment details
+    // Note: The official donation acknowledgement receipt email is dispatched
+    // exclusively by the Razorpay payment.captured webhook to guarantee idempotency.
     return Response.json({
       success: true,
       referenceId: paymentId,
       orderId,
       amount: amountInRupees,
-      purpose,
+      currency: payment.currency,
+      paymentStatus: payment.status,
+      receiptPending: true,
+      message:
+        payment.status === "captured"
+          ? "Payment verified successfully."
+          : "Payment authorized. Waiting for capture confirmation.",
     });
   } catch (error: unknown) {
     const errorMessage =
-      error instanceof Error ? error.message : "Failed to verify payment with gateway.";
+      error instanceof Error ? error.message : "Unknown Razorpay verification error.";
     console.error("Razorpay verification API error:", errorMessage);
 
     return Response.json(
-      { error: "Unable to verify payment with the gateway. Please contact support with your payment reference." },
+      {
+        error:
+          "Unable to verify payment with the gateway. Please contact support with reference: " +
+          paymentId,
+      },
       { status: 500 },
     );
   }
