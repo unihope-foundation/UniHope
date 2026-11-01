@@ -10,6 +10,7 @@
 
 import type * as donations from "../donations.js";
 import type * as emailTemplates from "../emailTemplates.js";
+import type * as pdfReceipt from "../pdfReceipt.js";
 
 import type {
   ApiFromModules,
@@ -20,6 +21,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   donations: typeof donations;
   emailTemplates: typeof emailTemplates;
+  pdfReceipt: typeof pdfReceipt;
 }>;
 
 /**

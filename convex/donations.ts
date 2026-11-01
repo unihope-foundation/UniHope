@@ -3,6 +3,7 @@ import { mutation, query, action } from "./_generated/server";
 import { api } from "./_generated/api";
 import type { Doc } from "./_generated/dataModel";
 import { buildDonationReceiptEmail } from "./emailTemplates";
+import { buildDonationReceiptPdf, uint8ArrayToBase64 } from "./pdfReceipt";
 
 export type ClaimResult =
   | { claimed: true; donation: Doc<"donations"> }
@@ -213,6 +214,40 @@ export const sendDonationReceipt = action({
       formattedAmount,
     });
 
+    // Build official PDF receipt attachment from verified donation record
+    let pdfBase64 = "";
+    try {
+      const pdfBytes = await buildDonationReceiptPdf({
+        donorName: donation.donorName,
+        donorEmail: donation.donorEmail,
+        donorPhone: donation.donorPhone,
+        anonymous: donation.anonymous,
+        amount: donation.amount,
+        purpose: donation.purpose,
+        razorpayPaymentId: donation.razorpayPaymentId,
+        razorpayOrderId: donation.razorpayOrderId,
+        formattedDate,
+        formattedAmount,
+      });
+      pdfBase64 = uint8ArrayToBase64(pdfBytes);
+      if (!pdfBase64 || pdfBase64.length === 0) {
+        throw new Error("Generated PDF attachment buffer was empty.");
+      }
+    } catch (pdfErr) {
+      const msg = pdfErr instanceof Error ? pdfErr.message : "PDF generation failed";
+      console.error("PDF generation failure for donation:", donation.razorpayPaymentId, msg);
+      await ctx.runMutation(api.donations.updateReceiptStatus, {
+        donationId: args.donationId,
+        receiptStatus: "needs_review",
+        receiptError: `PDF generation failed: ${msg}`,
+      });
+      return {
+        success: false,
+        error: `PDF generation failed: ${msg}`,
+        receiptStatus: "needs_review",
+      };
+    }
+
     try {
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -226,6 +261,12 @@ export const sendDonationReceipt = action({
           subject: `Payment Receipt — UNIHOPE Foundation`,
           html: htmlReceipt,
           text: textFallback,
+          attachments: [
+            {
+              filename: "UNIHOPE-Donation-Receipt.pdf",
+              content: pdfBase64,
+            },
+          ],
         }),
       });
 
