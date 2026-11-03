@@ -185,7 +185,19 @@ export async function submitDonation(payload: DonationPayload): Promise<Donation
           });
 
           const verifyData = await verifyRes.json();
-          if (!verifyRes.ok || !verifyData.success) {
+          if (verifyRes.ok && verifyData.success) {
+            resolve({
+              referenceId: response.razorpay_payment_id,
+              method: payload.paymentMethod || "online",
+              status: verifyData.paymentStatus === "pending" ? "pending" : "confirmed",
+              amount: payload.amount,
+              purpose: payload.purpose,
+            });
+            return;
+          }
+
+          // If client-side or signature validation explicitly failed (400)
+          if (verifyRes.status === 400) {
             throw new Error(
               verifyData.error ||
                 "Payment verification could not be confirmed. Please contact support with reference: " +
@@ -193,10 +205,12 @@ export async function submitDonation(payload: DonationPayload): Promise<Donation
             );
           }
 
+          // Safe fallback for gateway timeouts / 5xx where checkout was already completed by user:
+          // Do not encourage double payment; show pending reconciliation status with reference ID.
           resolve({
             referenceId: response.razorpay_payment_id,
             method: payload.paymentMethod || "online",
-            status: "confirmed",
+            status: "pending",
             amount: payload.amount,
             purpose: payload.purpose,
           });

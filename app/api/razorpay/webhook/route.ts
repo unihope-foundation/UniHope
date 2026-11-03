@@ -157,7 +157,8 @@ export async function POST(request: Request) {
     const convex = getConvexClient();
     const amountInRupees = payment.amount / 100;
 
-    const result = await convex.mutation(api.donations.recordCapturedPayment, {
+    const result = await convex.action(api.donations.recordCapturedPayment, {
+      serverSecret: webhookSecret,
       razorpayPaymentId: payment.id,
       razorpayOrderId: payment.order_id,
       donorName,

@@ -20,7 +20,6 @@ const geistMono = Geist_Mono({
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -31,31 +30,26 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
 });
 
 const onest = Onest({
   variable: "--font-onest",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
 });
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {

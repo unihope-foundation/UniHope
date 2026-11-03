@@ -1,7 +1,7 @@
 import { v } from "convex/values";
-import { mutation, query, action } from "./_generated/server";
-import { api } from "./_generated/api";
-import type { Doc } from "./_generated/dataModel";
+import { query, action, internalMutation } from "./_generated/server";
+import { api, internal } from "./_generated/api";
+import type { Doc, Id } from "./_generated/dataModel";
 import { buildDonationReceiptEmail } from "./emailTemplates";
 import { buildDonationReceiptPdf, uint8ArrayToBase64 } from "./pdfReceipt";
 
@@ -22,7 +22,12 @@ export type ReceiptActionResult = {
  * If a payment with the same `razorpayPaymentId` already exists,
  * it returns the existing record without duplicating.
  */
-export const recordCapturedPayment = mutation({
+/**
+ * Internal Mutation: Persists a captured donation payment idempotently.
+ * Accessible ONLY internally by trusted Convex server actions.
+ * Unreachable directly by untrusted browser clients.
+ */
+export const recordCapturedPaymentInternal = internalMutation({
   args: {
     razorpayPaymentId: v.string(),
     razorpayOrderId: v.string(),
@@ -86,11 +91,57 @@ export const recordCapturedPayment = mutation({
 });
 
 /**
+ * Server-authenticated Action: Persists a captured donation payment.
+ * Requires verification of the Razorpay webhook secret,
+ * preventing untrusted clients from creating fake captured donations.
+ */
+export const recordCapturedPayment = action({
+  args: {
+    serverSecret: v.string(),
+    razorpayPaymentId: v.string(),
+    razorpayOrderId: v.string(),
+    donorName: v.string(),
+    donorEmail: v.string(),
+    donorPhone: v.string(),
+    amount: v.number(),
+    currency: v.string(),
+    purpose: v.string(),
+    anonymous: v.boolean(),
+  },
+  handler: async (
+    ctx,
+    args,
+  ): Promise<{
+    donationId: Doc<"donations">["_id"];
+    alreadyProcessed: boolean;
+    receiptStatus: Doc<"donations">["receiptStatus"];
+  }> => {
+    const expectedSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
+    if (!expectedSecret || args.serverSecret !== expectedSecret) {
+      console.warn("Unauthorized attempt to record payment rejected.");
+      throw new Error("Unauthorized: Invalid webhook secret.");
+    }
+
+    return await ctx.runMutation(internal.donations.recordCapturedPaymentInternal, {
+      razorpayPaymentId: args.razorpayPaymentId,
+      razorpayOrderId: args.razorpayOrderId,
+      donorName: args.donorName,
+      donorEmail: args.donorEmail,
+      donorPhone: args.donorPhone,
+      amount: args.amount,
+      currency: args.currency,
+      purpose: args.purpose,
+      anonymous: args.anonymous,
+    });
+  },
+});
+
+/**
  * Atomically claims the email receipt sending task.
  * Guarantees that only one process or action can send the receipt for a given payment.
  * Automatically recovers leases stalled longer than 5 minutes.
  */
-export const claimReceiptSending = mutation({
+export const claimReceiptSending = internalMutation({
   args: {
     donationId: v.id("donations"),
   },
@@ -127,7 +178,7 @@ export const claimReceiptSending = mutation({
 /**
  * Updates the receipt delivery status after an email attempt.
  */
-export const updateReceiptStatus = mutation({
+export const updateReceiptStatus = internalMutation({
   args: {
     donationId: v.id("donations"),
     receiptStatus: v.union(
@@ -163,7 +214,7 @@ export const sendDonationReceipt = action({
   handler: async (ctx, args): Promise<ReceiptActionResult> => {
     // 1. Claim the sending lease atomically
     const claim: ClaimResult = await ctx.runMutation(
-      api.donations.claimReceiptSending,
+      internal.donations.claimReceiptSending,
       {
         donationId: args.donationId,
       },
@@ -185,12 +236,51 @@ export const sendDonationReceipt = action({
 
     if (!resendApiKey || !fromAddress) {
       const err = "Resend configuration missing (API key or sender email).";
-      await ctx.runMutation(api.donations.updateReceiptStatus, {
+      await ctx.runMutation(internal.donations.updateReceiptStatus, {
         donationId: args.donationId,
         receiptStatus: "failed",
         receiptError: err,
       });
       return { success: false, error: err };
+    }
+
+    // Organization details from Convex environment variables (no hardcoded fallbacks)
+    const orgDetails = {
+      name: process.env.ORG_NAME,
+      registeredAddress: process.env.ORG_REGISTERED_ADDRESS,
+      pan: process.env.ORG_PAN,
+      trustRegistrationNo: process.env.ORG_TRUST_REGISTRATION_NO,
+      email: process.env.ORG_EMAIL,
+      website: process.env.ORG_WEBSITE,
+    };
+
+    // Statutory tax details from Convex environment variables
+    const taxDetails = {
+      approvalSection: process.env.ORG_80G_PROVISIONAL_APPROVAL_SECTION,
+      provisionalUrn: process.env.ORG_80G_PROVISIONAL_URN,
+      approvalDate: process.env.ORG_80G_APPROVAL_DATE,
+      validFrom: process.env.ORG_80G_VALID_FROM,
+      validUntil: process.env.ORG_80G_VALID_UNTIL,
+    };
+
+    // Retrieve Founder Handwritten Signature PNG from Convex Storage if configured
+    let signatureBytes: Uint8Array | null = null;
+    const rawStorageId = process.env.FOUNDER_SIGNATURE_STORAGE_ID;
+    if (rawStorageId) {
+      try {
+        const storageId = rawStorageId as Id<"_storage">;
+        const fileBlob = await ctx.storage.get(storageId);
+        if (fileBlob) {
+          const ab = await fileBlob.arrayBuffer();
+          signatureBytes = new Uint8Array(ab);
+        } else {
+          console.warn("Storage blob not found for FOUNDER_SIGNATURE_STORAGE_ID:", rawStorageId);
+        }
+      } catch (storageErr) {
+        console.warn("Error retrieving founder signature from Convex storage:", storageErr);
+      }
+    } else {
+      console.warn("FOUNDER_SIGNATURE_STORAGE_ID is not configured in Convex environment variables.");
     }
 
     // 2. Format receipt content per UNIHOPE specification
@@ -228,6 +318,9 @@ export const sendDonationReceipt = action({
         razorpayOrderId: donation.razorpayOrderId,
         formattedDate,
         formattedAmount,
+        signatureBytes,
+        orgDetails,
+        taxDetails,
       });
       pdfBase64 = uint8ArrayToBase64(pdfBytes);
       if (!pdfBase64 || pdfBase64.length === 0) {
@@ -236,7 +329,7 @@ export const sendDonationReceipt = action({
     } catch (pdfErr) {
       const msg = pdfErr instanceof Error ? pdfErr.message : "PDF generation failed";
       console.error("PDF generation failure for donation:", donation.razorpayPaymentId, msg);
-      await ctx.runMutation(api.donations.updateReceiptStatus, {
+      await ctx.runMutation(internal.donations.updateReceiptStatus, {
         donationId: args.donationId,
         receiptStatus: "needs_review",
         receiptError: `PDF generation failed: ${msg}`,
@@ -271,7 +364,7 @@ export const sendDonationReceipt = action({
       });
 
       if (response.ok) {
-        await ctx.runMutation(api.donations.updateReceiptStatus, {
+        await ctx.runMutation(internal.donations.updateReceiptStatus, {
           donationId: args.donationId,
           receiptStatus: "sent",
           receiptSentAt: Date.now(),
@@ -296,7 +389,7 @@ export const sendDonationReceipt = action({
           ? ("needs_review" as const)
           : ("failed" as const);
 
-      await ctx.runMutation(api.donations.updateReceiptStatus, {
+      await ctx.runMutation(internal.donations.updateReceiptStatus, {
         donationId: args.donationId,
         receiptStatus: newStatus,
         receiptError: `Resend status ${response.status}: ${parsedError}`,
@@ -308,7 +401,7 @@ export const sendDonationReceipt = action({
         networkErr instanceof Error
           ? networkErr.message
           : "Network failure connecting to Resend";
-      await ctx.runMutation(api.donations.updateReceiptStatus, {
+      await ctx.runMutation(internal.donations.updateReceiptStatus, {
         donationId: args.donationId,
         receiptStatus: "needs_review",
         receiptError: msg,
