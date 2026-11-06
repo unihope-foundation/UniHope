@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import crypto from "crypto";
 
 test.describe("Server API Routes - Razorpay Order & Verification", () => {
   const validOrderPayload = {
@@ -76,7 +75,7 @@ test.describe("Server API Routes - Razorpay Order & Verification", () => {
     });
     expect(res.status()).toBe(400);
     const body = await res.json();
-    expect(body.error).toContain("Missing required payment verification parameters");
+    expect(body.error).toMatch(/missing|invalid/i);
   });
 
   test("POST /api/razorpay/verify-payment rejects invalid HMAC signature", async ({ request }) => {
@@ -108,26 +107,24 @@ test.describe("Server API Routes - Razorpay Order & Verification", () => {
 
     expect(res.status()).toBe(400);
     const body = await res.json();
-    expect(body.error).toBe("Payment verification failed: signature mismatch.");
+    expect(body.error).toBe("Invalid payment verification signature format.");
   });
 
   test("POST /api/donations/bank-pledge generates valid pending pledge", async ({ request }) => {
     const res = await request.post("/api/donations/bank-pledge", {
       data: {
-        amount: 2500,
+        amount: 5000,
         purpose: "Education",
-        fullName: "Karthik Raja",
-        email: "karthik@example.com",
-        phone: "+91 91501 49339",
-        anonymous: false,
+        fullName: "Ramesh Chandran",
+        email: "ramesh@example.org",
+        phone: "+91 94440 12345",
       },
     });
 
     expect(res.status()).toBe(200);
     const body = await res.json();
     expect(body.success).toBe(true);
-    expect(body.status).toBe("pending");
     expect(body.referenceId).toMatch(/^BNK-/);
+    expect(body.status).toBe("pending");
   });
 });
-

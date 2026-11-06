@@ -27,7 +27,7 @@ export function useInView<T extends Element = HTMLElement>({
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduceMotion || typeof IntersectionObserver === "undefined") {
-      setInView(true); // never leave content hidden
+      queueMicrotask(() => setInView(true)); // never leave content hidden
       return;
     }
 

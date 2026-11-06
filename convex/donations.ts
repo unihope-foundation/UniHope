@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { query, action, internalMutation } from "./_generated/server";
-import { api, internal } from "./_generated/api";
+import { internal } from "./_generated/api";
 import type { Doc, Id } from "./_generated/dataModel";
 import { buildDonationReceiptEmail } from "./emailTemplates";
 import { buildDonationReceiptPdf, uint8ArrayToBase64 } from "./pdfReceipt";
@@ -263,6 +263,27 @@ export const sendDonationReceipt = action({
       validUntil: process.env.ORG_80G_VALID_UNTIL,
     };
 
+    // Retrieve Official Organization Logo PNG from Convex Storage if configured
+    let logoBytes: Uint8Array | null = null;
+    let logoUrl: string | undefined = undefined;
+    const rawLogoStorageId = process.env.ORG_LOGO_STORAGE_ID;
+    if (rawLogoStorageId) {
+      try {
+        const logoStorageId = rawLogoStorageId as Id<"_storage">;
+        const logoBlob = await ctx.storage.get(logoStorageId);
+        if (logoBlob) {
+          const ab = await logoBlob.arrayBuffer();
+          logoBytes = new Uint8Array(ab);
+        } else {
+          console.warn("Storage blob not found for ORG_LOGO_STORAGE_ID:", rawLogoStorageId);
+        }
+        const publicUrl = await ctx.storage.getUrl(logoStorageId);
+        if (publicUrl) logoUrl = publicUrl;
+      } catch (logoErr) {
+        console.warn("Error retrieving logo from Convex storage:", logoErr);
+      }
+    }
+
     // Retrieve Founder Handwritten Signature PNG from Convex Storage if configured
     let signatureBytes: Uint8Array | null = null;
     const rawStorageId = process.env.FOUNDER_SIGNATURE_STORAGE_ID;
@@ -284,27 +305,19 @@ export const sendDonationReceipt = action({
     }
 
     // 2. Format receipt content per UNIHOPE specification
+    const rawId = (donation.razorpayPaymentId || "UH000000")
+      .replace(/^pay_/, "")
+      .toUpperCase();
+    const year = new Date(donation.createdAt).getFullYear();
+    const receiptNumber = `UH-${year}-${rawId.slice(-6).padStart(6, "0")}`;
+
     const formattedAmount = `₹${new Intl.NumberFormat("en-IN").format(donation.amount)}`;
     const formattedDate = new Intl.DateTimeFormat("en-IN", {
       dateStyle: "long",
       timeZone: "Asia/Kolkata",
     }).format(new Date(donation.createdAt));
 
-    // Build HTML + plain-text receipt using the invoice template
-    const { html: htmlReceipt, text: textFallback } = buildDonationReceiptEmail({
-      donorName: donation.donorName,
-      donorEmail: donation.donorEmail,
-      donorPhone: donation.donorPhone,
-      anonymous: donation.anonymous,
-      amount: donation.amount,
-      purpose: donation.purpose,
-      razorpayPaymentId: donation.razorpayPaymentId,
-      razorpayOrderId: donation.razorpayOrderId,
-      formattedDate,
-      formattedAmount,
-    });
-
-    // Build official PDF receipt attachment from verified donation record
+    // Build official PDF receipt attachment from verified donation record first
     let pdfBase64 = "";
     try {
       const pdfBytes = await buildDonationReceiptPdf({
@@ -318,7 +331,13 @@ export const sendDonationReceipt = action({
         razorpayOrderId: donation.razorpayOrderId,
         formattedDate,
         formattedAmount,
+        receiptNumber,
+        transactionRef: donation.razorpayPaymentId,
+        status: "PAID",
+        logoBytes,
+        logoSrc: logoBytes,
         signatureBytes,
+        signatureSrc: signatureBytes,
         orgDetails,
         taxDetails,
       });
@@ -341,6 +360,39 @@ export const sendDonationReceipt = action({
       };
     }
 
+    // Attachment: strictly ONE downloadable attachment (the official PDF receipt)
+    const emailAttachments = [
+      {
+        filename: "UNIHOPE-Donation-Receipt.pdf",
+        content: pdfBase64,
+      },
+    ];
+
+    // Public HTTPS URL for email client signature rendering
+    const defaultSiteUrl = "https://brave-firefly-526.ap-southeast-2.convex.site";
+    const siteUrl = process.env.CONVEX_SITE_URL || defaultSiteUrl;
+    const finalSignatureUrl = `${siteUrl}/assets/signature.png`;
+
+    // Build HTML + plain-text receipt using the redesigned premium email template
+    const { html: htmlReceipt, text: textFallback } = buildDonationReceiptEmail({
+      donorName: donation.donorName,
+      donorEmail: donation.donorEmail,
+      donorPhone: donation.donorPhone,
+      anonymous: donation.anonymous,
+      amount: donation.amount,
+      purpose: donation.purpose,
+      razorpayPaymentId: donation.razorpayPaymentId,
+      razorpayOrderId: donation.razorpayOrderId,
+      formattedDate,
+      formattedAmount,
+      receiptNumber,
+      status: "PAID",
+      orgDetails,
+      taxDetails,
+      logoUrl,
+      signatureUrl: finalSignatureUrl,
+    });
+
     try {
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -351,15 +403,10 @@ export const sendDonationReceipt = action({
         body: JSON.stringify({
           from: fromAddress,
           to: [donation.donorEmail],
-          subject: `Payment Receipt — UNIHOPE Foundation`,
+          subject: `Donation Receipt — ${receiptNumber} — UNIHOPE Foundation`,
           html: htmlReceipt,
           text: textFallback,
-          attachments: [
-            {
-              filename: "UNIHOPE-Donation-Receipt.pdf",
-              content: pdfBase64,
-            },
-          ],
+          attachments: emailAttachments,
         }),
       });
 
