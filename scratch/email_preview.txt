@@ -1,0 +1,54 @@
+================================================================================
+UNIHOPE Foundation — DONATION RECEIPT
+Official Donation Receipt / Payment Acknowledgement
+================================================================================
+
+Receipt No.:      UH-2026-000001
+Transaction Ref:  pay_TEST123456789
+Payment Status:   PAID
+Payment Date:     04 Nov 2026, 10:30 AM
+Amount Received:  INR 1,000.00
+
+DONOR DETAILS
+--------------------------------------------------------------------------------
+Donor Name:       Dr. Rajesh Sundaram
+Email Address:    rajesh.sundaram@example.com
+Phone Number:     +91 98765 43210
+
+PAYMENT DETAILS
+--------------------------------------------------------------------------------
+Payment Date:     04 Nov 2026, 10:30 AM
+Payment Status:   PAID
+Payment ID:       pay_TEST123456789
+Order ID:         order_TEST987654321
+
+DONATION DETAILS
+--------------------------------------------------------------------------------
+Description:      Donation to UNIHOPE Foundation - General Donation
+Unit Price:       INR 1,000.00
+Quantity:         1
+Amount Paid:      INR 1,000.00
+
+STATUTORY / TAX APPROVAL DETAILS
+--------------------------------------------------------------------------------
+Approval Section: Section 80G Approval
+Provisional URN:  AAACU1234CF20261
+Approval Date:    15 April 2026
+Validity Period:  AY 2026-27 to AY 2029-30
+Donations to UNIHOPE Foundation are eligible for tax deduction under Section 80G of the Income Tax Act, 1961.
+This is a computer-generated official receipt issued by UNIHOPE Foundation. Valid without a physical seal.
+
+ORGANIZATION
+--------------------------------------------------------------------------------
+UNIHOPE Foundation
+Trust Reg. No.:   R/Chennai North Joint I/Book-4/228/2026
+PAN:              AABTU1234F
+Address:          2nd floor, No:73, S Sivan Kovil St, opp. to ambiga driving school, Ottagapalayam, Sector 15, Vadapalani, Chennai, Tamil Nadu 600026
+Email:            unihopefoundation.official@gmail.com
+Website:          https://unihopefoundation.org
+
+Authorized Signatory
+Founder, UNIHOPE Foundation
+
+Note: An official print-ready PDF receipt is attached to this email.
+================================================================================

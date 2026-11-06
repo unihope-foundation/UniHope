@@ -1,0 +1,42 @@
+[
+  {
+    "test": "create-order zero amount",
+    "status": 400,
+    "passed": true
+  },
+  {
+    "test": "create-order negative amount",
+    "status": 400,
+    "passed": true
+  },
+  {
+    "test": "create-order empty body",
+    "status": 400,
+    "passed": true
+  },
+  {
+    "test": "verify-payment forged signature",
+    "status": 400,
+    "passed": true
+  },
+  {
+    "test": "webhook missing signature",
+    "status": 400,
+    "passed": true
+  },
+  {
+    "test": "webhook forged signature",
+    "status": 401,
+    "passed": false
+  },
+  {
+    "test": "bank-pledge invalid input",
+    "status": 400,
+    "passed": true
+  },
+  {
+    "test": "partnership-enquiry empty body",
+    "status": 400,
+    "passed": true
+  }
+]

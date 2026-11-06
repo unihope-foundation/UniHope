@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   const fullName = typeof body.fullName === "string" ? body.fullName.trim() : "";
   const email = typeof body.email === "string" ? body.email.trim() : "";
   const phone = typeof body.phone === "string" ? body.phone.trim() : "";
-  const anonymous = Boolean(body.anonymous);
+  const _anonymous = Boolean(body.anonymous);
 
   if (!Number.isFinite(amount) || !Number.isInteger(amount) || amount < 1) {
     return Response.json(

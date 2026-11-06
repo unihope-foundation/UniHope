@@ -1,12 +1,8 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, Page } from "@playwright/test";
 import { injectMockRazorpay, mockDonationApis } from "./helpers/mock-razorpay";
 
 test.describe("Donation Razorpay Mocked Payment Flow", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/donate");
-  });
-
-  async function fillValidDonationForm(page: any, overrides?: { name?: string; email?: string; phone?: string; anonymous?: boolean }) {
+  async function fillValidDonationForm(page: Page, overrides?: { name?: string; email?: string; phone?: string; anonymous?: boolean }) {
     await page.getByLabel("Full name").fill(overrides?.name ?? "Arun Kumar");
     await page.getByLabel("Email address").fill(overrides?.email ?? "arun.kumar@example.com");
     await page.getByLabel("Phone number").fill(overrides?.phone ?? "+91 91501 49339");
@@ -26,8 +22,9 @@ test.describe("Donation Razorpay Mocked Payment Flow", () => {
       orderId: mockOrderId,
     });
     await mockDonationApis(page);
+    await page.goto("/donate");
 
-    await page.getByRole("button", { name: "₹1,000" }).click();
+    await page.getByRole("button", { name: "₹1,000", exact: true }).click();
     await page.getByLabel("Direct your contribution").selectOption("Healthcare");
     await fillValidDonationForm(page);
 
@@ -46,7 +43,7 @@ test.describe("Donation Razorpay Mocked Payment Flow", () => {
     // Verify donation summary details
     await expect(page.getByText("₹1,000 · Healthcare")).toBeVisible();
     await expect(page.getByText(mockPaymentId)).toBeVisible();
-    await expect(page.getByText("R/Chennai North Joint I/Book-4/228/2026")).toBeVisible();
+    await expect(page.getByText("R/Chennai North Joint I/Book-4/228/2026", { exact: true })).toBeVisible();
 
     // Verify navigation links on thank-you screen
     await expect(page.getByRole("link", { name: "Back to home" })).toHaveAttribute("href", "/");
@@ -56,6 +53,7 @@ test.describe("Donation Razorpay Mocked Payment Flow", () => {
   test("should prefill donor details into Razorpay checkout options", async ({ page }) => {
     await injectMockRazorpay(page, { action: "success" });
     await mockDonationApis(page);
+    await page.goto("/donate");
 
     await fillValidDonationForm(page, {
       name: "Lakshmi Narayanan",
@@ -66,7 +64,7 @@ test.describe("Donation Razorpay Mocked Payment Flow", () => {
     await page.getByRole("button", { name: /Donate/ }).click();
 
     // Check captured options passed into window.Razorpay constructor
-    const capturedOptions = await page.evaluate(() => (window as any).__mockRazorpayCalls?.[0]);
+    const capturedOptions = await page.evaluate(() => (window as unknown as { __mockRazorpayCalls: Array<{ name: string; prefill: { name: string; email: string; contact: string } }> }).__mockRazorpayCalls?.[0]);
     expect(capturedOptions).toBeDefined();
     expect(capturedOptions.name).toBe("UNIHOPE Foundation");
     expect(capturedOptions.prefill.name).toBe("Lakshmi Narayanan");
@@ -77,12 +75,13 @@ test.describe("Donation Razorpay Mocked Payment Flow", () => {
   test("should handle user dismissal/cancellation cleanly without showing thank-you screen", async ({ page }) => {
     await injectMockRazorpay(page, { action: "dismiss" });
     await mockDonationApis(page);
+    await page.goto("/donate");
 
     await fillValidDonationForm(page);
     await page.getByRole("button", { name: /Donate/ }).click();
 
     // User dismissed the checkout modal -> Form displays error alert and resets button
-    const errorAlert = page.getByRole("alert");
+    const errorAlert = page.locator("p[role='alert']");
     await expect(errorAlert).toBeVisible();
     await expect(errorAlert).toContainText("Payment was cancelled before completion. You have not been charged.");
 
@@ -101,12 +100,13 @@ test.describe("Donation Razorpay Mocked Payment Flow", () => {
       failureMessage: failureReason,
     });
     await mockDonationApis(page);
+    await page.goto("/donate");
 
     await fillValidDonationForm(page);
     await page.getByRole("button", { name: /Donate/ }).click();
 
     // Form displays the gateway failure error
-    const errorAlert = page.getByRole("alert");
+    const errorAlert = page.locator("p[role='alert']");
     await expect(errorAlert).toBeVisible();
     await expect(errorAlert).toContainText(failureReason);
 
@@ -124,12 +124,13 @@ test.describe("Donation Razorpay Mocked Payment Flow", () => {
         body: { error: "Payment verification failed: signature mismatch." },
       },
     });
+    await page.goto("/donate");
 
     await fillValidDonationForm(page);
     await page.getByRole("button", { name: /Donate/ }).click();
 
     // Form displays verification failure error
-    const errorAlert = page.getByRole("alert");
+    const errorAlert = page.locator("p[role='alert']");
     await expect(errorAlert).toBeVisible();
     await expect(errorAlert).toContainText("Payment verification failed: signature mismatch.");
 
@@ -147,18 +148,18 @@ test.describe("Donation Razorpay Mocked Payment Flow", () => {
         body: { error: "Payment gateway is not currently configured. Please try again later." },
       },
     });
+    await page.goto("/donate");
 
     await fillValidDonationForm(page);
     await page.getByRole("button", { name: /Donate/ }).click();
 
-    const errorAlert = page.getByRole("alert");
+    const errorAlert = page.locator("p[role='alert']");
     await expect(errorAlert).toBeVisible();
     await expect(errorAlert).toContainText("Payment gateway is not currently configured");
 
     // Checkout modal must not have been opened
-    const wasOpened = await page.evaluate(() => (window as any).__mockRazorpayOpened);
+    const wasOpened = await page.evaluate(() => (window as unknown as { __mockRazorpayOpened: boolean }).__mockRazorpayOpened);
     expect(wasOpened).toBeFalsy();
     await expect(page.getByText("Donation received")).not.toBeVisible();
   });
 });
-
