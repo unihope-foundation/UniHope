@@ -18,6 +18,7 @@ const VIDEO = {
   poster: "/registry/runwayml-com-hero-0/video-poster.png",
 } as const;
 
+
 /**
  * 네비게이션 링크
  */
@@ -85,7 +86,7 @@ export default function Hero({
 
   return (
     <section className="relative bg-[#FBF8F3] pb-6 pt-0 transition-all duration-200">
-     
+
       <nav className="fixed left-0 right-0 top-0 z-50 bg-white/95 backdrop-blur-sm">
         <div className="mx-auto max-w-[1600px] px-4 lg:px-8">
           <div className="flex h-16 items-center justify-between gap-3">
@@ -235,12 +236,12 @@ export default function Hero({
                     color: colors.primaryBtnText,
                   }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.backgroundColor =
-                      colors.primaryBtnHoverBg)
+                  (e.currentTarget.style.backgroundColor =
+                    colors.primaryBtnHoverBg)
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.backgroundColor =
-                      colors.primaryBtnBg)
+                  (e.currentTarget.style.backgroundColor =
+                    colors.primaryBtnBg)
                   }
                 >
                   {primaryButtonText}
@@ -253,12 +254,12 @@ export default function Hero({
                     backgroundColor: colors.secondaryBtnBg,
                   }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.backgroundColor =
-                      colors.secondaryBtnHoverBg)
+                  (e.currentTarget.style.backgroundColor =
+                    colors.secondaryBtnHoverBg)
                   }
                   onMouseLeave={(e) =>
-                    (e.currentTarget.style.backgroundColor =
-                      colors.secondaryBtnBg)
+                  (e.currentTarget.style.backgroundColor =
+                    colors.secondaryBtnBg)
                   }
                 >
                   {secondaryButtonText}
