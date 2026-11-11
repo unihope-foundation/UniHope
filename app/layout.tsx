@@ -119,6 +119,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${plusJakartaSans.variable} ${dmSans.variable} ${inter.variable} ${onest.variable} ${sourceSerif.variable} ${openSans.variable} h-full antialiased`}
       suppressHydrationWarning >
 
