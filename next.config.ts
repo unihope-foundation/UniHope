@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   experimental: {
     devValidationWorker: false,
+    agentUpgrade: "security",
   },
 
   async redirects() {
