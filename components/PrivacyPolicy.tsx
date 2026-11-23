@@ -124,9 +124,8 @@ export function PrivacyPolicy() {
                 </span>
               </div>
               <ChevronDown
-                className={`w-4 h-4 transition-transform duration-200 ${
-                  mobileMenuOpen ? "rotate-180" : ""
-                }`}
+                className={`w-4 h-4 transition-transform duration-200 ${mobileMenuOpen ? "rotate-180" : ""
+                  }`}
               />
             </button>
 
@@ -137,11 +136,10 @@ export function PrivacyPolicy() {
                     key={sec.id}
                     type="button"
                     onClick={() => scrollTo(sec.id)}
-                    className={`w-full flex items-center gap-3 py-2 px-3 rounded-lg text-left text-sm transition-colors ${
-                      activeSection === sec.id
+                    className={`w-full flex items-center gap-3 py-2 px-3 rounded-lg text-left text-sm transition-colors ${activeSection === sec.id
                         ? "bg-[#EEEDEC] text-[#012A5F] font-bold"
                         : "text-[#5A5A5A] hover:bg-gray-50"
-                    }`}
+                      }`}
                   >
                     <span className="font-mono text-xs text-[#2B711B]">
                       {sec.num}
@@ -172,27 +170,24 @@ export function PrivacyPolicy() {
                         key={sec.id}
                         type="button"
                         onClick={() => scrollTo(sec.id)}
-                        className={`flex py-2 px-3 items-center gap-2.5 rounded-[10px] text-left transition-all cursor-pointer ${
-                          isActive
+                        className={`flex py-2 px-3 items-center gap-2.5 rounded-[10px] text-left transition-all cursor-pointer ${isActive
                             ? "border-l-2 border-l-[#012A5F] bg-[#EEEDEC] text-[#012A5F] font-semibold shadow-xs"
                             : "text-[#5A5A5A] hover:bg-gray-50 hover:text-gray-900 font-normal"
-                        }`}
+                          }`}
                       >
                         <span
-                          className={`font-mono text-[13px] ${
-                            isActive
+                          className={`font-mono text-[13px] ${isActive
                               ? "text-[#2B711B] font-bold"
                               : "text-[rgba(90,90,90,0.70)]"
-                          }`}
+                            }`}
                         >
                           {sec.num}
                         </span>
                         <span
-                          className={`font-plusJakartaSans text-sm leading-snug truncate ${
-                            isActive
+                          className={`font-plusJakartaSans text-sm leading-snug truncate ${isActive
                               ? "text-[#012A5F] font-semibold"
                               : "text-[#5A5A5A]"
-                          }`}
+                            }`}
                         >
                           {sec.title}
                         </span>
@@ -388,7 +383,7 @@ export function PrivacyPolicy() {
                 className="flex flex-col gap-4 scroll-mt-28"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-[#2B711B] font-outfit text-lg font-semibold leading-none">
+                  scm-history-item:c%3A%5CUsers%5CAdmin%5COneDrive%5CDesktop%5CNEXT.JS%5CUniHope%5CUniHope?%7B%22repositoryId%22%3A%22scm0%22%2C%22historyItemId%22%3A%2287e0a6e41134053f50e1610cdbc38c159956dc7a%22%2C%22historyItemParentId%22%3A%225b11744bb5f665d35ff02a76b7bdc7855aa5b774%22%2C%22historyItemDisplayId%22%3A%2287e0a6e%22%7D <span className="text-[#2B711B] font-outfit text-lg font-semibold leading-none">
                     05
                   </span>
                   <h2 className="text-[#012A5F] font-outfit text-2xl sm:text-[28px] font-semibold leading-tight">

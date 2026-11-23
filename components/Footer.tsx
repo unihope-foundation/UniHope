@@ -145,7 +145,7 @@ export function Footer({
 }: FooterProps) {
   const pathname = usePathname();
 
-  if (pathname?.startsWith("/hero-preview")) {
+  if (pathname?.startsWith("/hero-preview") || pathname?.startsWith("/admin")) {
     return null;
   }
 

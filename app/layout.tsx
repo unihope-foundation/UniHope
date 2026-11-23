@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+import { ClerkProvider } from "@clerk/nextjs";
+import ConvexClientProvider from "@/components/ConvexClientProvider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit, Plus_Jakarta_Sans, DM_Sans, Inter, Onest, Source_Serif_4, Open_Sans } from "next/font/google";
 import "./globals.css";
@@ -124,16 +127,24 @@ export default function RootLayout({
         className="min-h-full flex flex-col bg-white text-gray-900"
         suppressHydrationWarning
       >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
+        <ClerkProvider>
+          <ConvexClientProvider>
+            <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
             __html: JSON.stringify(organizationStructuredData),
-          }}
-        />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <Analytics />
+            }}
+            />
+            <Suspense fallback={null}>
+              <Navbar />
+            </Suspense>
+            <main className="flex-1">{children}</main>
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+            <Analytics />
+          </ConvexClientProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

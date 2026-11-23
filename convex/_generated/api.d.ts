@@ -8,9 +8,12 @@
  * @module
  */
 
+import type * as admin from "../admin.js";
+import type * as authTest from "../authTest.js";
 import type * as donations from "../donations.js";
 import type * as emailTemplates from "../emailTemplates.js";
 import type * as http from "../http.js";
+import type * as lib_adminAuth from "../lib/adminAuth.js";
 import type * as pdfReceipt from "../pdfReceipt.js";
 
 import type {
@@ -20,9 +23,12 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  admin: typeof admin;
+  authTest: typeof authTest;
   donations: typeof donations;
   emailTemplates: typeof emailTemplates;
   http: typeof http;
+  "lib/adminAuth": typeof lib_adminAuth;
   pdfReceipt: typeof pdfReceipt;
 }>;
 

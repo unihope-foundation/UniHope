@@ -48,5 +48,20 @@ export default defineSchema({
     .index("by_payment_id", ["razorpayPaymentId"])
     .index("by_order_id", ["razorpayOrderId"])
     .index("by_receipt_status", ["receiptStatus"]),
+
+  // Authorized Administrators & RBAC
+  adminUsers: defineTable({
+    clerkUserId: v.string(),
+    issuer: v.string(),
+    email: v.string(),
+    fullName: v.string(),
+    role: v.union(v.literal("owner"), v.literal("admin"), v.literal("viewer")),
+    isActive: v.boolean(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    createdBy: v.optional(v.string()),
+  })
+    .index("by_clerk_user_id", ["clerkUserId"])
+    .index("by_email", ["email"]),
 });
 
