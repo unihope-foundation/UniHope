@@ -12,6 +12,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.9.25",
     "@vercel/analytics": "^2.0.1",
     "convex": "^1.49.0",
     "framer-motion": "^14.6.0",

@@ -41,7 +41,7 @@ export function Navbar({
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  if (pathname?.startsWith("/hero-preview")) {
+  if (pathname?.startsWith("/hero-preview") || pathname?.startsWith("/admin")) {
     return null;
   }
 
