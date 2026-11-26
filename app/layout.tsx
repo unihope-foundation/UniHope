@@ -63,6 +63,11 @@ export const metadata: Metadata = {
   },
   description:
     "UNIHOPE Foundation is a registered charitable trust in Chennai supporting education, healthcare, livelihoods and community welfare.",
+  icons: {
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    shortcut: ["/icon.png"],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }],
+  },
   openGraph: {
     title: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
     description:

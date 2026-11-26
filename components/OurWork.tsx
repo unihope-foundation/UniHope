@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import ourWorkBanner from "@/assets/our-work-banner.svg";
-import { MapPin, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
-// import OurWorkHero from "./hero/OurworkHero";
+import { OurWorkHero } from "@/components/hero/OurWorkHero";
+
 export interface PillarItem {
   id: string;
   pillarNumber: string;
@@ -119,42 +118,9 @@ export function OurWork({ className = "" }: { className?: string }) {
   return (
     <div className={`flex flex-col min-h-screen bg-white ${className}`}>
       {/* ========================================================= */}
-      {/* 1. HERO SECTION & BANNER IMAGE                            */}
+      {/* 1. HERO SECTION                                           */}
       {/* ========================================================= */}
-      <section className="mx-auto max-w-7xl px-4 pt-6 pb-8 sm:pt-12 sm:pb-14 sm:px-6 lg:px-8">
-        <div>
-          <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
-            Our Work
-          </span>
-          <h1 className="mt-2 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0A2540]">
-            Community welfare work
-          </h1>
-          <p className="mt-2 text-xs sm:text-base text-gray-600 max-w-2xl leading-relaxed">
-            Creating hope. Empowering lives. Building a better society.
-          </p>
-        </div>
-
-        {/* Large Horizontal Banner Photo (class.svg) */}
-        <div className="mt-6 sm:mt-8 relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] shadow-sm">
-          <div className="relative aspect-[16/10] sm:aspect-[1198/518] min-h-[220px] sm:min-h-[440px] w-full">
-            <Image
-              src={ourWorkBanner}
-              alt="UNIHOPE community gathering in Chennai"
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
-        </div>
-
-        {/* Caption Banner */}
-        <div className="mt-3.5 sm:mt-4 flex items-center gap-2.5 rounded-xl bg-[#F4F5F7] px-3.5 py-2.5 sm:px-4 sm:py-3 text-[11px] sm:text-sm text-gray-600 border border-gray-100">
-          <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#0A2540] shrink-0" />
-          <span>
-            UNIHOPE&apos;s presence in Vadapalani, Chennai and rural pockets across Tamil Nadu.
-          </span>
-        </div>
-      </section>
+      <OurWorkHero processTargetId="ten-pillars" />
 
       {/* ========================================================= */}
       {/* 2. TICKER RIBBON                                          */}
@@ -164,7 +130,10 @@ export function OurWork({ className = "" }: { className?: string }) {
       {/* ========================================================= */}
       {/* 3. TEN PILLARS OF SERVICE (Accordion Cards)               */}
       {/* ========================================================= */}
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:py-20 sm:px-6 lg:px-8">
+      <section
+        id="ten-pillars"
+        className="mx-auto max-w-7xl px-4 py-10 sm:py-20 sm:px-6 lg:px-8 scroll-mt-20"
+      >
         <div>
           <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
             Guiding Charter
@@ -261,7 +230,7 @@ export function OurWork({ className = "" }: { className?: string }) {
           })}
         </div>
       </section>
-      {/* <OurWorkHero /> */}
+
       {/* ========================================================= */}
       {/* 4. PRE-FOOTER CTA ("Want to be part of it?")              */}
       {/* ========================================================= */}

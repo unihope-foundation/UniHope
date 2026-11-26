@@ -23,6 +23,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { RevealGroup } from "@/components/motion/RevealGroup";
 import { TeamSection } from "@/components/TeamSection";
 import { delay } from "@/lib/motion";
+import AboutHero from "./hero/AboutHero";
 
 export interface AboutUsProps {
   className?: string;
@@ -97,27 +98,10 @@ export function AboutUs({ className = "" }: AboutUsProps) {
       {/* ========================================================= */}
       {/* 1. HERO HEADER                                            */}
       {/* ========================================================= */}
-      <section className="mx-auto max-w-7xl px-4 pt-6 pb-6 sm:pt-10 sm:pb-8 sm:px-6 lg:px-8 text-center">
-        <div className="mx-auto max-w-3xl rounded-[2rem] bg-[#F4F5F7] py-8 px-5 sm:py-12 sm:px-12 shadow-xs">
-          <span
-            className="anim-fade-up text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]"
-            style={delay(0)}
-          >
-            About
-          </span>
-          <h1
-            className="anim-fade-up mt-2.5 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0A2540] leading-tight"
-            style={delay(60)}
-          >
-            About UNIHOPE Foundation
-          </h1>
-          <p
-            className="anim-fade-up mt-2.5 text-xs sm:text-base text-gray-600"
-            style={delay(120)}
-          >
-            A registered charitable trust in Chennai, Tamil Nadu.
-          </p>
-        </div>
+      <section className="w-full text-left">
+        <AboutHero />
+
+
       </section>
 
       {/* ========================================================= */}

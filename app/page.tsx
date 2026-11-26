@@ -19,11 +19,11 @@ import {
 } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
 import CircularGallery from "@/components/CircularGallery";
-// import HeroOption1 from "@/components/hero/HeroOption1";
-// import HeroOption2 from "@/components/hero/HeroOption2";
-// import HeroOption3 from "@/components/hero/HeroOption3";
-// import HeroOption4 from "@/components/hero/HeroOption4";
-// import Hero from "@/components/hero/Hero5";
+import MainPageHero from "@/components/hero/MainPageHero";
+import HeroOption1 from "@/components/hero/HeroOption1";
+
+import HeroOption4 from "@/components/hero/HeroOption4";
+import Hero5 from "@/components/hero/Hero5";
 
 
 
@@ -113,20 +113,21 @@ export default function Home() {
 
 
       <section className="mx-auto max-w-7xl px-4 pt-6 pb-12 sm:px-6 sm:pt-8 sm:pb-16 lg:px-8">
+        <MainPageHero />
         {/* Mobile View Structure (< lg) */}
-        <div className="flex flex-col gap-6 lg:hidden">
-          {/* Headline Card */}
-          <div className="flex flex-col justify-center rounded-[2rem] bg-[#F4F5F7] p-6 sm:p-10">
+        {/* <div className="flex flex-col gap-6 lg:hidden"> */}
+        {/* Headline Card */}
+        {/* <div className="flex flex-col justify-center rounded-[2rem] bg-[#F4F5F7] p-6 sm:p-10">
             <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
               Registered Charitable Trust, Chennai
             </span>
             <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-[#0A2540] sm:text-4xl leading-tight">
               A fair start for every person in our community.
             </h1>
-          </div>
+          </div> */}
 
-          {/* Photo */}
-          <div className="relative overflow-hidden rounded-[2rem] shadow-xs aspect-[586/418] w-full">
+        {/* Photo */}
+        {/* <div className="relative overflow-hidden rounded-[2rem] shadow-xs aspect-[586/418] w-full">
             <Image
               src={miniclassImg}
               alt="Outdoor village classroom in Tamil Nadu"
@@ -134,10 +135,10 @@ export default function Home() {
               priority
               className="object-cover"
             />
-          </div>
+          </div> */}
 
-          {/* Paragraph and CTAs */}
-          <div className="flex flex-col">
+        {/* Paragraph and CTAs */}
+        {/* <div className="flex flex-col">
             <p className="text-sm sm:text-base leading-relaxed text-gray-600">
               UniHope Foundation is a grassroots initiative in Chennai, dedicated to
               uplifting vulnerable individuals and families through targeted
@@ -159,13 +160,13 @@ export default function Home() {
                 <ArrowUpRight className="ml-1.5 h-4 w-4" />
               </Link>
             </div>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
 
         {/* Desktop View Structure (>= lg) */}
-        <div className="hidden lg:block">
-          {/* Row 1 */}
-          <div className="grid grid-cols-12 gap-6 items-stretch">
+        {/* <div className="hidden lg:block"> */}
+        {/* Row 1 */}
+        {/* <div className="grid grid-cols-12 gap-6 items-stretch">
             <div className="flex flex-col justify-center rounded-[2rem] bg-[#F4F5F7] p-12 lg:col-span-6 lg:p-14">
               <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#2E7D32]">
                 Registered Charitable Trust, Chennai
@@ -184,10 +185,10 @@ export default function Home() {
                 className="object-cover"
               />
             </div>
-          </div>
+          </div> */}
 
-          {/* Row 2 */}
-          <div className="mt-6 grid grid-cols-12 gap-6 items-center">
+        {/* Row 2 */}
+        {/* <div className="mt-6 grid grid-cols-12 gap-6 items-center">
             <div className="relative overflow-hidden rounded-[2rem] lg:col-span-5 shadow-xs aspect-[376/282] w-full">
               <Image
                 src={studentsImg}
@@ -220,8 +221,8 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </section>
 
       {/* ========================================================= */}
@@ -389,9 +390,11 @@ export default function Home() {
       </section>
       <CircularGallery />
       {/* <HeroOption1 />
-      <HeroOption2 />
-      <HeroOption3 />
+
+
       <HeroOption4 /> */}
+      {/* <Hero5 /> */}
+
 
     </div>
   );
