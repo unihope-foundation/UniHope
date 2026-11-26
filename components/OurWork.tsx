@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { TickerRibbon } from "@/components/TickerRibbon";
-import { OurWorkHero } from "@/components/hero/OurWorkHero";
+import { OurWorkHero } from "@/components/hero/OurworkHero";
 
 export interface PillarItem {
   id: string;
