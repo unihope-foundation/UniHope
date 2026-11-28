@@ -10,10 +10,12 @@
 
 import type * as admin from "../admin.js";
 import type * as authTest from "../authTest.js";
+import type * as dashboard from "../dashboard.js";
 import type * as donations from "../donations.js";
 import type * as emailTemplates from "../emailTemplates.js";
 import type * as http from "../http.js";
 import type * as lib_adminAuth from "../lib/adminAuth.js";
+import type * as lib_helpers from "../lib/helpers.js";
 import type * as pdfReceipt from "../pdfReceipt.js";
 
 import type {
@@ -25,10 +27,12 @@ import type {
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
   authTest: typeof authTest;
+  dashboard: typeof dashboard;
   donations: typeof donations;
   emailTemplates: typeof emailTemplates;
   http: typeof http;
   "lib/adminAuth": typeof lib_adminAuth;
+  "lib/helpers": typeof lib_helpers;
   pdfReceipt: typeof pdfReceipt;
 }>;
 

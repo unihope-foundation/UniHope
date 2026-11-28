@@ -26,6 +26,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import TickerRibbon from "./TickerRibbon";
+import VolunteerHero from "./hero/VolunteerHero";
 
 const VOLUNTEER_FORM_URL = "https://forms.gle/E7G9Sta8sb3eQm9w8";
 
@@ -265,11 +266,12 @@ export function Volunteer() {
       {/* ========================================================= */}
       {/* 1. HERO SECTION                                           */}
       {/* ========================================================= */}
-      <section className="relative w-full pt-8 sm:pt-14 pb-16 sm:pb-24 px-4 sm:px-8 lg:px-16 overflow-hidden">
+      <VolunteerHero />
+      {/* <section className="relative w-full pt-8 sm:pt-14 pb-16 sm:pb-24 px-4 sm:px-8 lg:px-16 overflow-hidden">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Left Content Column */}
-            <div className="lg:col-span-6 flex flex-col items-start z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center"> */}
+      {/* Left Content Column */}
+      {/* <div className="lg:col-span-6 flex flex-col items-start z-10">
               <div className="inline-flex items-center gap-1.5 pb-3">
                 <span className="text-[#2B711B] font-plusJakartaSans text-[13px] font-semibold tracking-[0.08em] uppercase">
                   GET INVOLVED
@@ -309,10 +311,10 @@ export function Volunteer() {
                   </span>
                 </button>
               </div>
-            </div>
+            </div> */}
 
-            {/* Right Image Card & Location Pill */}
-            <div className="lg:col-span-6 flex flex-col items-start gap-4 w-full">
+      {/* Right Image Card & Location Pill */}
+      {/* <div className="lg:col-span-6 flex flex-col items-start gap-4 w-full">
               <div className="relative rounded-3xl border border-[#D6D6D6] bg-[#EEEDEC] shadow-[0_8px_24px_rgba(1,42,95,0.06)] w-full h-[320px] sm:h-[400px] lg:h-[420px] overflow-hidden group">
                 <Image
                   src={communityGathering}
@@ -331,13 +333,13 @@ export function Volunteer() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </div> */}
+      {/* </section> */}
 
       {/* ========================================================= */}
       {/* 2. RIBBON MARQUEE (ORANGE)                                */}
       {/* ========================================================= */}
-     <TickerRibbon />
+      <TickerRibbon />
 
       {/* ========================================================= */}
       {/* 3. PATHS OF CONTRIBUTION ("Four ways to help")             */}
@@ -721,11 +723,10 @@ export function Volunteer() {
               return (
                 <div
                   key={faq.id}
-                  className={`rounded-xl border transition-all duration-200 overflow-hidden bg-white ${
-                    isOpen
-                      ? "border-[#012A5F] shadow-sm"
-                      : "border-[#D6D6D6] hover:border-gray-400"
-                  }`}
+                  className={`rounded-xl border transition-all duration-200 overflow-hidden bg-white ${isOpen
+                    ? "border-[#012A5F] shadow-sm"
+                    : "border-[#D6D6D6] hover:border-gray-400"
+                    }`}
                 >
                   <button
                     type="button"

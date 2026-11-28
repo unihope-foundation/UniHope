@@ -63,6 +63,11 @@ export const metadata: Metadata = {
   },
   description:
     "UNIHOPE Foundation is a registered charitable trust in Chennai supporting education, healthcare, livelihoods and community welfare.",
+  icons: {
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    shortcut: ["/icon.png"],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }],
+  },
   openGraph: {
     title: "UNIHOPE Foundation | Registered Charitable Trust in Chennai",
     description:
@@ -127,7 +132,12 @@ export default function RootLayout({
         className="min-h-full flex flex-col bg-white text-gray-900"
         suppressHydrationWarning
       >
-        <ClerkProvider>
+        <ClerkProvider
+          signInUrl="/sign-in"
+          signUpUrl="/sign-up"
+          signInFallbackRedirectUrl="/admin"
+          signUpFallbackRedirectUrl="/admin"
+        >
           <ConvexClientProvider>
             <script
             type="application/ld+json"

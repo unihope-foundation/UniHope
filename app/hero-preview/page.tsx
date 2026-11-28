@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import HeroOption1 from "@/components/hero/HeroOption1";
-import HeroOption2 from "@/components/hero/HeroOption2";
-import HeroOption3 from "@/components/hero/HeroOption3";
+import HeroOption2 from "@/components/hero/AboutHero";
+import HeroOption3 from "@/components/hero/VolunteerHero";
 import HeroOption4 from "@/components/hero/HeroOption4";
 
 export default function HeroPreviewPage() {
@@ -19,16 +19,14 @@ export default function HeroPreviewPage() {
         <button
           type="button"
           onClick={() => setSelectedConcept(1)}
-          className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-medium transition cursor-pointer whitespace-nowrap ${
-            selectedConcept === 1
-              ? "bg-white text-black shadow-sm"
-              : "text-neutral-400 hover:text-white"
-          }`}
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-medium transition cursor-pointer whitespace-nowrap ${selectedConcept === 1
+            ? "bg-white text-black shadow-sm"
+            : "text-neutral-400 hover:text-white"
+            }`}
         >
           <span
-            className={`w-2 h-2 rounded-full ${
-              selectedConcept === 1 ? "bg-emerald-500" : "bg-neutral-600"
-            }`}
+            className={`w-2 h-2 rounded-full ${selectedConcept === 1 ? "bg-emerald-500" : "bg-neutral-600"
+              }`}
           />
           1: AI Studio
         </button>
@@ -37,16 +35,14 @@ export default function HeroPreviewPage() {
         <button
           type="button"
           onClick={() => setSelectedConcept(2)}
-          className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-medium transition cursor-pointer whitespace-nowrap ${
-            selectedConcept === 2
-              ? "bg-[#29839D] text-white shadow-sm"
-              : "text-neutral-400 hover:text-white"
-          }`}
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-medium transition cursor-pointer whitespace-nowrap ${selectedConcept === 2
+            ? "bg-[#29839D] text-white shadow-sm"
+            : "text-neutral-400 hover:text-white"
+            }`}
         >
           <span
-            className={`w-2 h-2 rounded-full ${
-              selectedConcept === 2 ? "bg-white" : "bg-neutral-600"
-            }`}
+            className={`w-2 h-2 rounded-full ${selectedConcept === 2 ? "bg-white" : "bg-neutral-600"
+              }`}
           />
           2: Path to Success
         </button>
@@ -55,16 +51,14 @@ export default function HeroPreviewPage() {
         <button
           type="button"
           onClick={() => setSelectedConcept(3)}
-          className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-medium transition cursor-pointer whitespace-nowrap ${
-            selectedConcept === 3
-              ? "bg-[#EAA945] text-black shadow-sm"
-              : "text-neutral-400 hover:text-white"
-          }`}
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-medium transition cursor-pointer whitespace-nowrap ${selectedConcept === 3
+            ? "bg-[#EAA945] text-black shadow-sm"
+            : "text-neutral-400 hover:text-white"
+            }`}
         >
           <span
-            className={`w-2 h-2 rounded-full ${
-              selectedConcept === 3 ? "bg-black" : "bg-neutral-600"
-            }`}
+            className={`w-2 h-2 rounded-full ${selectedConcept === 3 ? "bg-black" : "bg-neutral-600"
+              }`}
           />
           3: Mental Wellness
         </button>
@@ -73,16 +67,14 @@ export default function HeroPreviewPage() {
         <button
           type="button"
           onClick={() => setSelectedConcept(4)}
-          className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-medium transition cursor-pointer whitespace-nowrap ${
-            selectedConcept === 4
-              ? "bg-[#DDFC79] text-[#024751] font-semibold shadow-sm"
-              : "text-neutral-400 hover:text-white"
-          }`}
+          className={`flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full font-medium transition cursor-pointer whitespace-nowrap ${selectedConcept === 4
+            ? "bg-[#DDFC79] text-[#024751] font-semibold shadow-sm"
+            : "text-neutral-400 hover:text-white"
+            }`}
         >
           <span
-            className={`w-2 h-2 rounded-full ${
-              selectedConcept === 4 ? "bg-[#024751] animate-pulse" : "bg-neutral-600"
-            }`}
+            className={`w-2 h-2 rounded-full ${selectedConcept === 4 ? "bg-[#024751] animate-pulse" : "bg-neutral-600"
+              }`}
           />
           4: Startup Talent
         </button>

@@ -934,7 +934,7 @@ const MY_REELS: GalleryItem[] = [
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function CircularGallery({
-  items,
+  items = MY_REELS,
   bend = 3,
   textColor = '#ffffff',
   borderRadius = 0.08,

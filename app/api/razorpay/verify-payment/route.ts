@@ -178,34 +178,41 @@ export async function POST(request: Request) {
   console.log(`[PAYMENT_VERIFY] Signature verified for ${paymentId}`);
 
   // 7. Fast lookup: Check if Convex has already captured this payment via webhook
-  try {
-    const convex = getConvexClient();
-    const existing = await convex.query(api.donations.getDonationByPaymentId, {
-      razorpayPaymentId: paymentId,
-    });
-
-    if (existing && existing.paymentStatus === "captured") {
-      console.log(
-        `[PAYMENT_VERIFY] Payment already confirmed captured in datastore for ${paymentId}`,
+  const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
+  if (webhookSecret) {
+    try {
+      const convex = getConvexClient();
+      const existing = await convex.action(
+        api.donations.getPaymentVerificationStatus,
+        {
+          serverSecret: webhookSecret,
+          razorpayPaymentId: paymentId,
+        },
       );
-      console.log("[PAYMENT_VERIFY] Payment validated");
-      console.log("[PAYMENT_VERIFY] Response sent");
 
-      return Response.json({
-        success: true,
-        referenceId: paymentId,
-        orderId,
-        amount: existing.amount,
-        currency: existing.currency,
-        paymentStatus: "captured",
-        receiptPending: existing.receiptStatus !== "sent",
-        message: "Payment verified successfully.",
-      });
+      if (existing && existing.paymentStatus === "captured") {
+        console.log(
+          `[PAYMENT_VERIFY] Payment already confirmed captured in datastore for ${paymentId}`,
+        );
+        console.log("[PAYMENT_VERIFY] Payment validated");
+        console.log("[PAYMENT_VERIFY] Response sent");
+
+        return Response.json({
+          success: true,
+          referenceId: paymentId,
+          orderId,
+          amount: existing.amount,
+          currency: existing.currency,
+          paymentStatus: "captured",
+          receiptPending: existing.receiptStatus !== "sent",
+          message: "Payment verified successfully.",
+        });
+      }
+    } catch (convexQueryErr: unknown) {
+      const msg =
+        convexQueryErr instanceof Error ? convexQueryErr.message : "unavailable";
+      console.warn(`[PAYMENT_VERIFY] Datastore pre-check bypassed: ${msg}`);
     }
-  } catch (convexQueryErr: unknown) {
-    const msg =
-      convexQueryErr instanceof Error ? convexQueryErr.message : "unavailable";
-    console.warn(`[PAYMENT_VERIFY] Datastore pre-check bypassed: ${msg}`);
   }
 
   // 8. Authoritative payment verification against Razorpay REST API

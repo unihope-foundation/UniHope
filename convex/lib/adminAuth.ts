@@ -65,3 +65,28 @@ export async function requireAdmin(
   };
 }
 
+/**
+ * Writes an immutable audit log entry from any authorized admin mutation.
+ * Never logs secrets, card numbers, CVVs, or auth tokens.
+ */
+export async function recordAdminAudit(
+  ctx: { db: MutationCtx["db"] },
+  admin: VerifiedAdmin,
+  params: {
+    action: string;
+    resourceType: string;
+    resourceId?: string;
+    metadata?: Record<string, unknown>;
+  }
+) {
+  await ctx.db.insert("adminAuditLogs", {
+    adminUserId: admin.clerkUserId,
+    adminEmail: admin.email,
+    action: params.action,
+    resourceType: params.resourceType,
+    resourceId: params.resourceId,
+    metadata: params.metadata ? JSON.stringify(params.metadata) : undefined,
+    timestamp: Date.now(),
+  });
+}
+

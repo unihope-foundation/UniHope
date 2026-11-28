@@ -5,9 +5,12 @@ import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { useAuth } from "@clerk/nextjs";
 
-const convexUrl =
-  process.env.NEXT_PUBLIC_CONVEX_URL ||
-  "https://hardy-spider-10.ap-southeast-2.convex.cloud";
+const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+if (!convexUrl) {
+  throw new Error(
+    "NEXT_PUBLIC_CONVEX_URL is not configured. Refusing to connect to a fallback Convex deployment.",
+  );
+}
 
 const convex = new ConvexReactClient(convexUrl);
 

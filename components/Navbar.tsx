@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+
+const VOLUNTEER_FORM_URL = "https://forms.gle/E7G9Sta8sb3eQm9w8";
 
 export interface NavItem {
   label: string;
@@ -25,7 +27,8 @@ const DEFAULT_NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Our Work", href: "/our-work" },
-  { label: "Volunteer ", href: "/volunteer" },
+  { label: "Volunteer", href: "/volunteer" },
+  { label: "Gallery", href: "/gallery" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -45,12 +48,67 @@ export function Navbar({
     return null;
   }
 
+  const isVolunteerPage = pathname?.startsWith("/volunteer");
+  const resolvedCtaText = isVolunteerPage && ctaText === "Donate" ? "Register Now" : ctaText;
+  const resolvedCtaHref = isVolunteerPage && ctaHref === "/donate" ? VOLUNTEER_FORM_URL : ctaHref;
+  const isExternalCta = resolvedCtaHref.startsWith("http");
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen((prev) => !prev);
   };
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
+  };
+
+  const renderCta = (classNameStr: string, closeOnClick = false) => {
+    const content = (
+      <>
+        <span>{resolvedCtaText}</span>
+        {isVolunteerPage && (
+          <ArrowUpRight className="ml-1.5 h-4 w-4 text-[#EAA945]" strokeWidth={2.4} />
+        )}
+      </>
+    );
+
+    if (onCtaClick) {
+      return (
+        <button
+          type="button"
+          onClick={() => {
+            if (closeOnClick) closeMobileMenu();
+            onCtaClick();
+          }}
+          className={classNameStr}
+        >
+          {content}
+        </button>
+      );
+    }
+
+    if (isExternalCta) {
+      return (
+        <a
+          href={resolvedCtaHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={closeOnClick ? closeMobileMenu : undefined}
+          className={classNameStr}
+        >
+          {content}
+        </a>
+      );
+    }
+
+    return (
+      <Link
+        href={resolvedCtaHref}
+        onClick={closeOnClick ? closeMobileMenu : undefined}
+        className={classNameStr}
+      >
+        {content}
+      </Link>
+    );
   };
 
   return (
@@ -109,43 +167,17 @@ export function Navbar({
           })}
         </nav>
 
-        {/* Right Action (Desktop Donate CTA) */}
+        {/* Right Action (Desktop CTA) */}
         <div className="hidden md:flex items-center">
-          {onCtaClick ? (
-            <button
-              type="button"
-              onClick={onCtaClick}
-              className="inline-flex items-center justify-center rounded-full bg-[#0A2540] px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#071D33] hover:shadow-md active:scale-[0.98]"
-            >
-              {ctaText}
-            </button>
-          ) : (
-            <Link
-              href={ctaHref}
-              className="inline-flex items-center justify-center rounded-full bg-[#0A2540] px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#071D33] hover:shadow-md active:scale-[0.98]"
-            >
-              {ctaText}
-            </Link>
+          {renderCta(
+            "inline-flex items-center justify-center rounded-full bg-[#0A2540] px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-[#071D33] hover:shadow-md active:scale-[0.98]"
           )}
         </div>
 
         {/* Mobile Action & Hamburger Button */}
         <div className="flex items-center gap-2.5 md:hidden">
-          {onCtaClick ? (
-            <button
-              type="button"
-              onClick={onCtaClick}
-              className="inline-flex items-center justify-center rounded-full bg-[#0A2540] px-4 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#071D33] active:scale-[0.98]"
-            >
-              {ctaText}
-            </button>
-          ) : (
-            <Link
-              href={ctaHref}
-              className="inline-flex items-center justify-center rounded-full bg-[#0A2540] px-4 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#071D33] active:scale-[0.98]"
-            >
-              {ctaText}
-            </Link>
+          {renderCta(
+            "inline-flex items-center justify-center rounded-full bg-[#0A2540] px-4 py-1.5 text-xs font-semibold text-white shadow-xs transition hover:bg-[#071D33] active:scale-[0.98]"
           )}
 
           <button
@@ -182,25 +214,9 @@ export function Navbar({
 
           {/* Mobile CTA */}
           <div className="mt-4 pt-3 border-t border-gray-100">
-            {onCtaClick ? (
-              <button
-                type="button"
-                onClick={() => {
-                  closeMobileMenu();
-                  onCtaClick();
-                }}
-                className="w-full flex items-center justify-center rounded-full bg-[#0A2540] py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-[#071D33]"
-              >
-                {ctaText}
-              </button>
-            ) : (
-              <Link
-                href={ctaHref}
-                onClick={closeMobileMenu}
-                className="w-full flex items-center justify-center rounded-full bg-[#0A2540] py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-[#071D33]"
-              >
-                {ctaText}
-              </Link>
+            {renderCta(
+              "w-full flex items-center justify-center rounded-full bg-[#0A2540] py-3 text-center text-sm font-semibold text-white shadow-sm transition hover:bg-[#071D33]",
+              true
             )}
           </div>
         </div>

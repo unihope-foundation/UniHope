@@ -11,6 +11,7 @@ import {
   ChevronDown,
 } from "lucide-react";
 import TickerRibbon from "./TickerRibbon";
+import { ContactHero } from "@/components/hero/ContactHero";
 
 
 export function Contact() {
@@ -77,40 +78,20 @@ export function Contact() {
       {/* ========================================================= */}
       {/* 1. HERO SECTION                                           */}
       {/* ========================================================= */}
-     
-      
-      <section className="relative w-full pt-10 sm:pt-16 pb-12 sm:pb-16 px-4 sm:px-8 lg:px-16 overflow-hidden">
-        {/* Subtle grid backdrop pattern */}
-        <div className="absolute inset-0 opacity-[3%] pointer-events-none bg-[radial-gradient(#012A5F_1px,transparent_1px)] [background-size:16px_16px]" />
-
-        <div className="mx-auto max-w-7xl relative z-10">
-          <div className="flex flex-col items-start max-w-2xl">
-            <span className="text-[#2B711B] font-plusJakartaSans text-[13px] font-semibold leading-[18px] tracking-[0.08em] uppercase pb-2.5">
-              CONTACT US
-            </span>
-
-            <h1 className="text-[#012A5F] font-outfit text-4xl sm:text-5xl lg:text-[56px] font-semibold leading-tight sm:leading-[1.1] lg:leading-[64px] tracking-[-0.025em] pb-3.5">
-              Contact UNIHOPE Foundation
-            </h1>
-
-            <p className="text-[#5A5A5A] font-plusJakartaSans text-base sm:text-lg leading-relaxed">
-              Have a question, an idea, or want to help? Write to us. We will reply as
-              soon as we can.
-            </p>
-          </div>
-        </div>
-      </section>
+      <ContactHero contactSectionId="contact-section" />
 
       {/* ========================================================= */}
       {/* 2. RIBBON MARQUEE (WARM ORANGE)                           */}
       {/* ========================================================= */}
-      
+      <TickerRibbon />
 
-<TickerRibbon />
       {/* ========================================================= */}
       {/* 3. MAIN CONTACT GRID                                      */}
       {/* ========================================================= */}
-      <section className="w-full py-12 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-16">
+      <section
+        id="contact-section"
+        className="w-full py-12 sm:py-20 lg:py-24 px-4 sm:px-8 lg:px-16 scroll-mt-20"
+      >
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* Left Column: Phone, Email, Registered Office & Map */}

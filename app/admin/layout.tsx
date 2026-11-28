@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import AdminAuthGuard from "./AdminAuthGuard";
+import AdminShell from "@/components/admin/AdminShell";
 
-/**
- * Opt out of instant-navigation prerendering validation for dynamic authenticated admin route.
- * Allowed exclusively in Server Components.
- */
 export const instant = false;
 
 export const metadata: Metadata = {
@@ -21,8 +18,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <AdminAuthGuard>{children}</AdminAuthGuard>
-    </div>
+    <AdminAuthGuard>
+      <AdminShell>{children}</AdminShell>
+    </AdminAuthGuard>
   );
 }
