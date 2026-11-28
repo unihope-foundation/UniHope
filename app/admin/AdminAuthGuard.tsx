@@ -94,13 +94,22 @@ export default function AdminAuthGuard({
     };
   }, [tabSessionValid, access?.isAdmin, signOut, router]);
 
+  // Redirect logged-out users to /sign-in immediately
+  useEffect(() => {
+    if (access !== undefined && !access.isAuthenticated) {
+      router.replace("/sign-in?redirect_url=/admin");
+    }
+  }, [access, router]);
+
   // Loading state while verifying identity against Convex adminUsers or validating tab session
-  if (access === undefined || (session && tabSessionValid === null)) {
+  if (access === undefined || !access.isAuthenticated || (session && tabSessionValid === null)) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center p-6 text-center">
         <Loader2 className="h-8 w-8 animate-spin text-[#012A5F]" />
         <p className="mt-3 text-sm font-medium text-gray-600">
-          Verifying administrative permissions...
+          {access && !access.isAuthenticated
+            ? "Redirecting to admin sign-in..."
+            : "Verifying administrative permissions..."}
         </p>
       </div>
     );

@@ -8,8 +8,23 @@ type RazorpayPaymentEntity = {
   amount: number;
   currency: string;
   status: string;
+  method?: string;
+  created_at?: number;
   email?: string;
   contact?: string;
+  error_code?: string;
+  error_description?: string;
+  error_source?: string;
+  error_step?: string;
+  notes?: Record<string, string>;
+};
+
+type RazorpayRefundEntity = {
+  id: string;
+  payment_id: string;
+  amount: number;
+  currency: string;
+  status: string;
   notes?: Record<string, string>;
 };
 
@@ -91,8 +106,78 @@ export async function POST(request: Request) {
 
     // 3. Parse JSON only after signature verification
     const event = JSON.parse(rawBody);
+    const webhookEventId =
+      request.headers.get("x-razorpay-event-id") ||
+      `${event.event}_${event.created_at || Date.now()}`;
+    const convex = getConvexClient();
 
-    // Filter events: only process captured payments
+    // Handle failed payment attempts separately (never allocates a receipt number)
+    if (event.event === "payment.failed") {
+      const payment = event.payload?.payment?.entity as
+        | RazorpayPaymentEntity
+        | undefined;
+      if (payment?.order_id) {
+        const paymentNotes = payment.notes || {};
+        await convex.action(api.donations.recordPaymentAttempt, {
+          serverSecret: webhookSecret,
+          razorpayOrderId: payment.order_id,
+          razorpayPaymentId: payment.id,
+          donorName: paymentNotes.donorName,
+          donorEmail: paymentNotes.donorEmail || payment.email,
+          donorPhone: paymentNotes.donorPhone || payment.contact,
+          amount: Math.round((payment.amount || 0) / 100),
+          currency: payment.currency || "INR",
+          purpose: paymentNotes.purpose || "General Fund",
+          paymentMethod: payment.method,
+          status: "failed",
+          errorCode: payment.error_code,
+          errorDescription: payment.error_description,
+          errorSource: payment.error_source,
+          errorStep: payment.error_step,
+          webhookEventId,
+        });
+      }
+      return Response.json({
+        received: true,
+        status: "failed_attempt_recorded",
+      });
+    }
+
+    // Handle refund lifecycle events
+    if (
+      event.event === "refund.created" ||
+      event.event === "refund.processed" ||
+      event.event === "refund.failed"
+    ) {
+      const refund = event.payload?.refund?.entity as
+        | RazorpayRefundEntity
+        | undefined;
+      if (refund?.id && refund.payment_id) {
+        const refundStatus =
+          event.event === "refund.processed"
+            ? ("completed" as const)
+            : event.event === "refund.failed"
+              ? ("failed" as const)
+              : ("pending" as const);
+
+        await convex.action(api.donations.recordRefundWebhook, {
+          serverSecret: webhookSecret,
+          razorpayPaymentId: refund.payment_id,
+          razorpayRefundId: refund.id,
+          refundedAmount: Math.round((refund.amount || 0) / 100),
+          currency: refund.currency || "INR",
+          reason: refund.notes?.reason || "Razorpay refund event",
+          status: refundStatus,
+          webhookEventId,
+        });
+      }
+      return Response.json({
+        received: true,
+        status: `refund_${event.event}`,
+      });
+    }
+
+    // Filter remaining events: only process captured payments
     if (event.event !== "payment.captured") {
       return Response.json({
         received: true,
@@ -154,8 +239,14 @@ export async function POST(request: Request) {
     }
 
     // 6. Persist captured payment into Convex (idempotent write)
-    const convex = getConvexClient();
     const amountInRupees = payment.amount / 100;
+    const rawCaptureTs = payment.created_at ?? event.created_at;
+    const capturedAtMs =
+      typeof rawCaptureTs === "number" && rawCaptureTs > 0
+        ? rawCaptureTs < 1e12
+          ? rawCaptureTs * 1000
+          : rawCaptureTs
+        : undefined;
 
     const result = await convex.action(api.donations.recordCapturedPayment, {
       serverSecret: webhookSecret,
@@ -168,6 +259,9 @@ export async function POST(request: Request) {
       currency: payment.currency,
       purpose,
       anonymous,
+      paymentMethod: payment.method || combinedNotes.paymentMethod,
+      webhookEventId,
+      capturedAtMs,
     });
 
     // 7. Trigger receipt ONLY when:
@@ -180,6 +274,7 @@ export async function POST(request: Request) {
     if (emailValid && (!result.alreadyProcessed || result.receiptStatus === "pending")) {
       try {
         await convex.action(api.donations.sendDonationReceipt, {
+          serverSecret: webhookSecret,
           donationId: result.donationId,
         });
       } catch (emailErr) {

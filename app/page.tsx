@@ -95,7 +95,7 @@ export default function Home() {
   ];
 
   const stats = [
-    { value: "2024", label: "Year registered" },
+    { value: "2026", label: "Year registered" },
     { value: "10", label: "Focus areas" },
     { value: "Chennai", label: "Headquartered in" },
     {
