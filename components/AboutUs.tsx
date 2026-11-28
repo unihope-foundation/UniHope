@@ -318,10 +318,10 @@ export function AboutUs({ className = "" }: AboutUsProps) {
 
           <Reveal
             variant="fade"
-            className="relative h-44 w-full shrink-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-inner sm:h-48 sm:w-48 sm:rounded-3xl sm:bg-slate-100 md:h-56 md:w-56"
+            className="relative h-44 w-full shrink-0 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-inner sm:h-48 sm:w-48 sm:rounded-3xl md:h-56 md:w-56"
           >
             <Image
-              src="/Teams/Balasubramanian%20Kanthasamy.svg"
+              src="/Teams/Founder%20Bala.png"
               alt="Balasubramanian K, Founder and Managing Trustee of UNIHOPE Foundation"
               fill
               sizes="(max-width: 640px) 100vw, 224px"

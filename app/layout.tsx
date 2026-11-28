@@ -132,7 +132,12 @@ export default function RootLayout({
         className="min-h-full flex flex-col bg-white text-gray-900"
         suppressHydrationWarning
       >
-        <ClerkProvider>
+        <ClerkProvider
+          signInUrl="/sign-in"
+          signUpUrl="/sign-up"
+          signInFallbackRedirectUrl="/admin"
+          signUpFallbackRedirectUrl="/admin"
+        >
           <ConvexClientProvider>
             <script
             type="application/ld+json"

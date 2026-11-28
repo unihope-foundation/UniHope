@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { SignOutButton, useUser, useClerk, useSession } from "@clerk/nextjs";
+import { SignOutButton, useAuth, useUser, useClerk, useSession } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ShieldAlert, Loader2, ArrowLeft, LogOut, Clock } from "lucide-react";
@@ -17,6 +17,7 @@ export default function AdminAuthGuard({
   children: React.ReactNode;
 }) {
   const access = useQuery(api.admin.getMyAdminAccess);
+  const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
   const { session } = useSession();
   const { signOut } = useClerk();
@@ -94,23 +95,79 @@ export default function AdminAuthGuard({
     };
   }, [tabSessionValid, access?.isAdmin, signOut, router]);
 
-  // Redirect logged-out users to /sign-in immediately
+  // Redirect ONLY when Clerk has finished loading and the user is genuinely signed out
   useEffect(() => {
-    if (access !== undefined && !access.isAuthenticated) {
+    if (isLoaded && !isSignedIn) {
       router.replace("/sign-in?redirect_url=/admin");
     }
-  }, [access, router]);
+  }, [isLoaded, isSignedIn, router]);
 
-  // Loading state while verifying identity against Convex adminUsers or validating tab session
-  if (access === undefined || !access.isAuthenticated || (session && tabSessionValid === null)) {
+  // Loading state while Clerk initializes, Convex verifies identity, or tab session validates
+  if (!isLoaded || !isSignedIn) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center p-6 text-center">
         <Loader2 className="h-8 w-8 animate-spin text-[#012A5F]" />
         <p className="mt-3 text-sm font-medium text-gray-600">
-          {access && !access.isAuthenticated
+          {isLoaded && !isSignedIn
             ? "Redirecting to admin sign-in..."
-            : "Verifying administrative permissions..."}
+            : "Initializing authentication..."}
         </p>
+      </div>
+    );
+  }
+
+  if (access === undefined || (session && tabSessionValid === null)) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center p-6 text-center">
+        <Loader2 className="h-8 w-8 animate-spin text-[#012A5F]" />
+        <p className="mt-3 text-sm font-medium text-gray-600">
+          Verifying administrative permissions...
+        </p>
+      </div>
+    );
+  }
+
+  // Clerk is signed in, but Convex did not receive or accept a valid JWT session token.
+  // Do NOT redirect back to /sign-in (which causes an infinite loop).
+  if (!access.isAuthenticated) {
+    return (
+      <div className="flex min-h-[70vh] items-center justify-center p-6">
+        <div className="w-full max-w-md rounded-2xl border border-amber-200 bg-white p-8 text-center shadow-lg">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+            <ShieldAlert className="h-8 w-8" />
+          </div>
+          <h1 className="mt-4 text-xl font-bold text-gray-900">
+            Authentication Synchronization Error
+          </h1>
+          <p className="mt-2 text-sm text-gray-600">
+            You are signed in to Clerk, but the backend could not verify your session token. Please retry or sign out and sign back in.
+          </p>
+          <div className="mt-6 flex flex-col gap-3">
+            <button
+              type="button"
+              onClick={() => window.location.reload()}
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 cursor-pointer"
+            >
+              Retry Verification
+            </button>
+            <SignOutButton>
+              <button
+                type="button"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#012A5F] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#012048] cursor-pointer"
+              >
+                <LogOut className="h-4 w-4" />
+                Sign Out / Switch Account
+              </button>
+            </SignOutButton>
+            <Link
+              href="/"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-gray-50"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Return to Website
+            </Link>
+          </div>
+        </div>
       </div>
     );
   }
